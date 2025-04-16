@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Lab</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: white;
+      overflow: hidden;
+      font-family: monospace;
+      color: black;
+		cursor: none;
+    }
+	  
+	  a:hover {
+		  cursor: none;
+	  }
+	  
+	  .custom-cursor {
+  position: fixed;
+  width: 11px;
+  height: 11px;
+  background: black;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+    .container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rotating-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.rotating-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 141.42%;
+  height: 141.42%;
+  background-image: url('cloud.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  height: 0%;
+  z-index: 2;
+  transition: height 1s linear;
+}
+
+    /* SVG and text layers above the image */
+    #svg-container {
+      position: fixed;
+      top: 1vw;
+      left: 1vw;
+      width: 10vw;
+      padding: 2vw;
+      z-index: 10;
+    }
+
+    svg path {
+      fill: black !important;
+      visibility: hidden;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .text-box {
+      position: fixed;
+      top: 1vw;
+      right: 1vw;
+      width: 16.66vw;
+      padding: 1vw;
+      text-align: left;
+      z-index: 10;
+      color: black;
+      opacity: 0; /* Initially hidden */
+      transition: opacity 1s ease 1s; /* Fade in after image and time-rotation animation */
+    }
+
+    .text-box p {
+      margin: 0 0 1em 0;
+    }
+
+    .email-link {
+      position: fixed;
+      bottom: 2vw;
+      right: 2vw;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 1s ease 2s; /* Fade in after text */
+    }
+
+    .email-link.visible {
+      opacity: 1;
+    }
+
+    .email-link a {
+      text-decoration: none;
+      color: black;
+      padding: 5px 10px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .email-link a:hover {
+      background-color: black;
+      color: white;
+    }
+
+    /* Time and angle text styling */
+    .time-angle {
+      position: fixed;
+      bottom: 2vw;
+      left: 2vw;
+      z-index: 10;
+      font-size: 1rem;
+      color: black;
+      font-family: monospace;
+      opacity: 0; /* Initially hidden */
+      transition: opacity 1s ease 0s; /* Fade in immediately */
+    }
+	  
+	  ::selection {
+  background-color: black; /* White highlight */
+  color: white; /* Black text when highlighted */
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Rotating cloud image container -->
+  <div class="container" style="display: none;">
+    <div class="rotating-wrapper">
+      <div class="rotating-image" id="rotatingImage"></div>
+    </div>
+  </div>
+
+  <!-- SVG logo -->
+  <div id="svg-container">
+    <svg id="animated-svg" viewBox="0 0 507 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_391_70)">
+        <path id="piece1" d="M84.5 0.333374H0V42.5716H84.5V0.333374Z" />
+        <path id="piece2" d="M507 42.5717H253.5V84.8099H507V42.5717Z" />
+        <path id="piece3" d="M253.499 0.333374H168.999V42.5716H253.499V0.333374Z" />
+        <path id="piece4" d="M169.001 42.5717H84.501V84.8099H169.001V42.5717Z" />
+      </g>
+      <defs>
+        <clipPath id="clip0_391_70">
+          <rect width="507" height="84.5" fill="white" transform="translate(0 0.333374)"/>
+        </clipPath>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Time and Angle -->
+  <div class="time-angle" id="timeAngle"></div>
+
+  <!-- Text box -->
+  <div class="text-box" id="text-box"></div>
+
+  <!-- Email link -->
+  <div class="email-link"><a href="mailto:hello@fieldlab.xyz">hello@fieldlab.xyz</a></div>
+
+	<div class="custom-cursor" id="customCursor"></div>
+	
+	<div class="overlay"></div>
+
+
+	
+  <script>
+    const pieces = [
+      document.getElementById('piece1'),
+      document.getElementById('piece4'),
+      document.getElementById('piece3'),
+      document.getElementById('piece2')
+    ];
+
+    const paragraphs = [
+      "Field Lab is both a service and a platform—a way of working and a place for ideas to grow.",
+      "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology. Our method blends research, cultural insight, and hands-on strategy.",
+      "We collaborate and embed guiding vision into action. We develop original ventures, partner with founders, and support brand and product leaders who are navigating moments of creation or reinvention."
+    ];
+
+    function animatePieces(callback) {
+      pieces.forEach((piece, index) => {
+        if (piece.id === 'piece1' || piece.id === 'piece3') {
+          piece.setAttribute('transform', 'translate(0,42.5)');
+        }
+
+        setTimeout(() => {
+          piece.style.visibility = 'visible';
+
+          if (piece.id === 'piece1' || piece.id === 'piece3') {
+            piece.setAttribute('transform', 'translate(0,0)');
+          }
+
+          if (index === pieces.length - 1 && typeof callback === 'function') {
+            callback();
+          }
+        }, index * 200);
+      });
+    }
+
+    function animateText() {
+  const textBox = document.getElementById("text-box");
+  const emailLink = document.querySelector(".email-link");
+  let delay = 0;
+
+  textBox.style.opacity = 1; // <-- Make the paragraph text visible
+
+  paragraphs.forEach((para) => {
+    const words = para.split(" ");
+    const p = document.createElement("p");
+    textBox.appendChild(p);
+    words.forEach((word) => {
+      setTimeout(() => {
+        p.innerHTML += word + " ";
+      }, delay);
+      delay += 50;
+    });
+  });
+
+setTimeout(() => {
+  emailLink.classList.add("visible");
+}, delay -2000); // remove extra delay
+}
+     
+
+    function getRotationAngle() {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+
+      // EST (UTC-5), ignoring daylight saving for simplicity
+      const estOffset = -5;
+      const estDate = new Date(utc + 3600000 * estOffset);
+
+      const hours = estDate.getHours();
+      const minutes = estDate.getMinutes();
+      const seconds = estDate.getSeconds();
+
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+      return (totalSeconds / 10800) * 360;
+    }
+
+ function updateRotation() {
+  const angle = getRotationAngle();
+  const image = document.getElementById("rotatingImage");
+  const timeAngleDisplay = document.getElementById("timeAngle");
+
+  image.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+  timeAngleDisplay.innerHTML = `${new Date().toLocaleTimeString()}`;
+}
+
+function updateContainerSize() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+  const container = document.querySelector(".container");
+  const overlay = document.querySelector(".overlay");
+
+  if (hours < 12) {
+    const scale = totalSeconds / 43200;
+    const size = Math.max(1, scale * 100);
+    container.style.width = `${size}vw`;
+    container.style.height = `${size}vw`;
+    overlay.style.height = "0%";
+  } else {
+    container.style.width = "100vw";
+    container.style.height = "100vh";
+    const afternoonSeconds = totalSeconds - 43200;
+    const overlayHeight = (afternoonSeconds / 43200) * 100;
+    overlay.style.height = `${overlayHeight}%`;
+  }
+}
+
+// Disabled the updates by commenting out:
+// updateRotation();
+// updateContainerSize();
+// setInterval(() => {
+//   updateRotation();
+//   updateContainerSize();
+// }, 1000);
+	  updateRotation();
+updateContainerSize();
+setInterval(() => {
+  updateRotation();
+  updateContainerSize();
+}, 1000); // updates every second
+
+    // Initially display the rotating image and time/angle after SVG is animated
+    setTimeout(() => {
+      document.querySelector('.container').style.opacity = 1;
+      document.querySelector('.time-angle').style.opacity = 1;
+      updateRotation();
+    }, 1000); // Start animation after 1 second
+
+    setInterval(updateRotation, 1000); // Update time and angle every second
+
+    animatePieces(() => {
+      animateText(); // Start text animation immediately after SVG animation
+    });
+	  
+	  const customCursor = document.getElementById("customCursor");
+document.addEventListener("mousemove", (e) => {
+  customCursor.style.left = `${e.clientX}px`;
+  customCursor.style.top = `${e.clientY}px`;
+});
+	  
+  </script>
+</body>
+</html>
