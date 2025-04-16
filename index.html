@@ -147,6 +147,19 @@
 
 	  @media only screen and (max-width: 600px) {
 
+ body {
+    cursor: auto;
+  }
+
+		  custom-cursor {
+  display: none;
+}
+
+		   ::selection {
+  background-color: black; /* White highlight */
+  color: white; /* Black text when highlighted */
+}
+		  
   /* SVG and text layers above the image */
     #svg-container {
       position: fixed;
