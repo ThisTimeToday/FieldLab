@@ -8,355 +8,252 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: white;
-      overflow: hidden;
       font-family: monospace;
+      background: white;
       color: black;
-		cursor: none;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      min-height: 100vh;
+      height: 100%;
     }
-	  
-	  a:hover {
-		  cursor: none;
-	  }
-	  
-	  .custom-cursor {
-  position: fixed;
-  width: 11px;
-  height: 11px;
-  background: black;
-  pointer-events: none;
-  z-index: 9999;
-}
 
-    .container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-}
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
 
-.rotating-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
+    .hero, .section, .text-section {
+      min-height: 100vh;
+    }
 
-.rotating-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 141.42%;
-  height: 141.42%;
-  background-image: url('cloud.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: translate(-50%, -50%);
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  height: 0%;
-  z-index: 2;
-  transition: height 1s linear;
-}
-
-    /* SVG and text layers above the image */
-    #svg-container {
-      position: fixed;
-      top: 1vw;
-      left: 1vw;
-      width: 10vw;
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
       padding: 2vw;
-      z-index: 10;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 25vw;
     }
 
     svg path {
-      fill: black !important;
       visibility: hidden;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.6s ease;
     }
 
-    .text-box {
-      position: fixed;
-      top: 1vw;
-      right: 1vw;
-      width: 40vw;
-      padding: 1vw;
-      text-align: left;
-      z-index: 10;
-      color: black;
-      opacity: 0; /* Initially hidden */
-      transition: opacity 1s ease 1s; /* Fade in after image and time-rotation animation */
+    .section {
+      height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    .text-box p {
-      margin: 0 0 1em 0;
+    .text-section {
+      width: 60vw;
+      max-width: 60vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      line-height: 1.2;
+      white-space: normal;
+      word-wrap: break-word;
     }
 
-    .email-link {
-      position: fixed;
-      bottom: 2vw;
-      right: 2vw;
-      z-index: 10;
-      opacity: 0;
-      transition: opacity 1s ease 2s; /* Fade in after text */
+    #text-box {
+      width: 100%;
+      font-size: 1vw;
     }
-
-    .email-link.visible {
-      opacity: 1;
-    }
-
-    .email-link a {
-      text-decoration: none;
-      color: black;
-      padding: 5px 10px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .email-link a:hover {
-      background-color: black;
-      color: white;
-    }
-
-    /* Time and angle text styling */
-    .time-angle {
-      position: fixed;
-      bottom: 2vw;
-      left: 2vw;
-      z-index: 10;
-      font-size: 1rem;
-      color: black;
-      font-family: monospace;
-      opacity: 0; /* Initially hidden */
-      transition: opacity 1s ease 0s; /* Fade in immediately */
-    }
+	 
+	  .links-container {
+  margin-bottom: 6vh;
+  text-align: center;
+  font-size: 0.8vw;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
 	  
-	  ::selection {
-  background-color: black; /* White highlight */
-  color: white; /* Black text when highlighted */
+.links-container a {
+  text-decoration: none;
+  color: black;
+  margin: 0 1em;
+  padding: 0.25em 0.5em;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
+.links-container a:hover {
+  background-color: black;
+  color: white;
+}
+	  
 	  @media only screen and (max-width: 600px) {
-
- body {
-    cursor: auto;
-  }
-
-		 .custom-cursor {
-  display: none;
-}
-
-		   ::selection {
-  background-color: black; /* White highlight */
-  color: white; /* Black text when highlighted */
-}
 		  
-  /* SVG and text layers above the image */
-    #svg-container {
-      position: fixed;
-      top: 1vw;
-      left: 1vw;
-      width: 30vw;
-    
-      z-index: 10;
+		   .text-section {
+      width: 70vw;
+      max-width: 80vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      line-height: 1.3;
+      white-space: normal;
+      word-wrap: break-word;
     }
+		  
+  #text-box {
+      width: 100%;
+      font-size: 3vw;
+    }
+		  
+		  .links-container {
+  margin-bottom: 6vh;
+  text-align: center;
+  font-size: 2.5vw;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
 		  
 }
 
   </style>
 </head>
 <body>
-
-  <!-- Rotating cloud image container -->
-  <div class="container" style="display: none;">
-    <div class="rotating-wrapper">
-      <div class="rotating-image" id="rotatingImage"></div>
+  <div class="hero">
+    <img src="cloud.png" alt="Cloud background">
+    <div id="svg-container">
+      <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" fill="white"/>
+        <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" fill="white"/>
+        <path id="piece3" d="M1233.33 154.121H925V308.245H1233.33V154.121Z" fill="white"/>
+        <path id="piece4" d="M924.998 0H616.665V154.124H924.998V0Z" fill="white"/>
+        <path id="piece5" d="M616.669 154.121H308.335V308.245H616.669V154.121Z" fill="white"/>
+        <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" fill="white"/>
+      </svg>
     </div>
   </div>
 
-  <!-- SVG logo -->
-  <div id="svg-container">
-    <svg id="animated-svg" viewBox="0 0 507 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_391_70)">
-        <path id="piece1" d="M84.5 0.333374H0V42.5716H84.5V0.333374Z" />
-        <path id="piece2" d="M507 42.5717H253.5V84.8099H507V42.5717Z" />
-        <path id="piece3" d="M253.499 0.333374H168.999V42.5716H253.499V0.333374Z" />
-        <path id="piece4" d="M169.001 42.5717H84.501V84.8099H169.001V42.5717Z" />
-      </g>
-      <defs>
-        <clipPath id="clip0_391_70">
-          <rect width="507" height="84.5" fill="white" transform="translate(0 0.333374)"/>
-        </clipPath>
-      </defs>
-    </svg>
+  <div class="section">
+    <section class="text-section">
+      <div id="text-box"></div>
+    </section>
+	<div class="links-container" id="links-container">
+  <a href="mailto:hello@fieldlab.work">hello@fieldlab.work</a>
+  |
+  <a href="https://www.linkedin.com/company/fieldlab-work/" target="_blank">LinkedIn</a>
+
+</div>
   </div>
 
-  <!-- Time and Angle -->
-  <div class="time-angle" id="timeAngle"></div>
+<script>
+  const pieces = [
+    document.getElementById('piece6'),
+    document.getElementById('piece5'),
+    document.getElementById('piece4'),
+    document.getElementById('piece3'),
+    document.getElementById('piece2'),
+    document.getElementById('piece1')
+  ];
 
-  <!-- Text box -->
-  <div class="text-box" id="text-box"></div>
+  const slideUpOffset = 154.121; // amount to slide up from piece5's y
 
-  <!-- Email link -->
-  <div class="email-link"><a href="mailto:hello@fieldlab.xyz">→ hello@fieldlab.xyz</a></div>
+  // Updated text to animate word by word
+  const paragraphs = [
+    "Field Lab is both a service and a platform—a way of working and a place for ideas to grow.",
+    "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology.",
+    "Our method blends research, cultural insight, and hands-on strategy.",
+    "We collaborate and embed guiding vision into action.",
+    "We develop original ventures, partner with founders, and support brand and product leaders who are navigating moments of creation or reinvention."
+  ];
 
-	<div class="custom-cursor" id="customCursor"></div>
-	
-	<div class="overlay"></div>
-
-
-	
-  <script>
-    const pieces = [
-      document.getElementById('piece1'),
-      document.getElementById('piece4'),
-      document.getElementById('piece3'),
-      document.getElementById('piece2')
-    ];
-
-    const paragraphs = [
-      "Field Lab is both a service and a platform—a way of working and a place for ideas to grow.",
-      "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology. Our method blends research, cultural insight, and hands-on strategy.",
-      "We collaborate and embed guiding vision into action. We develop original ventures, partner with founders, and support brand and product leaders who are navigating moments of creation or reinvention."
-    ];
-
-    function animatePieces(callback) {
-      pieces.forEach((piece, index) => {
-        if (piece.id === 'piece1' || piece.id === 'piece3') {
-          piece.setAttribute('transform', 'translate(0,42.5)');
-        }
-
+  // Animate text once, word by word
+  function animateText() {
+    const textBox = document.getElementById("text-box");
+    let delay = 0;
+    paragraphs.forEach((para) => {
+      const words = para.split(" ");
+      const p = document.createElement("p");
+      textBox.appendChild(p);
+      words.forEach((word) => {
         setTimeout(() => {
-          piece.style.visibility = 'visible';
-
-          if (piece.id === 'piece1' || piece.id === 'piece3') {
-            piece.setAttribute('transform', 'translate(0,0)');
-          }
-
-          if (index === pieces.length - 1 && typeof callback === 'function') {
-            callback();
-          }
-        }, index * 200);
+          p.innerHTML += word + " ";
+        }, delay);
+        delay += 100; // 100ms delay between each word
       });
-    }
-
-    function animateText() {
-  const textBox = document.getElementById("text-box");
-  const emailLink = document.querySelector(".email-link");
-  let delay = 0;
-
-  textBox.style.opacity = 1; // <-- Make the paragraph text visible
-
-  paragraphs.forEach((para) => {
-    const words = para.split(" ");
-    const p = document.createElement("p");
-    textBox.appendChild(p);
-    words.forEach((word) => {
-      setTimeout(() => {
-        p.innerHTML += word + " ";
-      }, delay);
-      delay += 50;
     });
-  });
-
-setTimeout(() => {
-  emailLink.classList.add("visible");
-}, delay -2000); // remove extra delay
-}
-     
-
-    function getRotationAngle() {
-      const now = new Date();
-      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-
-      // EST (UTC-5), ignoring daylight saving for simplicity
-      const estOffset = -5;
-      const estDate = new Date(utc + 3600000 * estOffset);
-
-      const hours = estDate.getHours();
-      const minutes = estDate.getMinutes();
-      const seconds = estDate.getSeconds();
-
-      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-      return (totalSeconds / 10800) * 360;
-    }
-
- function updateRotation() {
-  const angle = getRotationAngle();
-  const image = document.getElementById("rotatingImage");
-  const timeAngleDisplay = document.getElementById("timeAngle");
-
-  image.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-  timeAngleDisplay.innerHTML = `${new Date().toLocaleTimeString()}`;
-}
-
-function updateContainerSize() {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-
-  const container = document.querySelector(".container");
-  const overlay = document.querySelector(".overlay");
-
-  if (hours < 12) {
-    const scale = totalSeconds / 43200;
-    const size = Math.max(1, scale * 100);
-    container.style.width = `${size}vw`;
-    container.style.height = `${size}vw`;
-    overlay.style.height = "0%";
-  } else {
-    container.style.width = "100vw";
-    container.style.height = "100vh";
-    const afternoonSeconds = totalSeconds - 43200;
-    const overlayHeight = (afternoonSeconds / 43200) * 100;
-    overlay.style.height = `${overlayHeight}%`;
   }
-}
 
-// Disabled the updates by commenting out:
-// updateRotation();
-// updateContainerSize();
-// setInterval(() => {
-//   updateRotation();
-//   updateContainerSize();
-// }, 1000);
-	  updateRotation();
-updateContainerSize();
-setInterval(() => {
-  updateRotation();
-  updateContainerSize();
-}, 1000); // updates every second
-
-    // Initially display the rotating image and time/angle after SVG is animated
-    setTimeout(() => {
-      document.querySelector('.container').style.opacity = 1;
-      document.querySelector('.time-angle').style.opacity = 1;
-      updateRotation();
-    }, 1000); // Start animation after 1 second
-
-    setInterval(updateRotation, 1000); // Update time and angle every second
-
-    animatePieces(() => {
-      animateText(); // Start text animation immediately after SVG animation
+  function resetPieces() {
+    pieces.forEach((piece) => {
+      piece.style.visibility = 'hidden';
+      piece.style.transform = 'translateY(0)';
     });
-	  
-	  const customCursor = document.getElementById("customCursor");
-document.addEventListener("mousemove", (e) => {
-  customCursor.style.left = `${e.clientX}px`;
-  customCursor.style.top = `${e.clientY}px`;
-});
-	  
-  </script>
+
+    // Initial position for piece6 and piece4 to simulate bottom-alignment with piece5
+    pieces[0].style.transform = `translateY(${slideUpOffset}px)`; // piece6
+    pieces[2].style.transform = `translateY(${slideUpOffset}px)`; // piece4
+  }
+
+  function animateSequence() {
+    resetPieces();
+
+    // Set up the text animation once
+    if (!document.getElementById("text-box").innerHTML) {
+      animateText(); // Animate text only once
+    }
+
+    // SVG animation
+    setTimeout(() => {
+      pieces[0].style.visibility = 'visible'; // piece6 stays aligned with piece5
+    }, 100);
+
+    setTimeout(() => {
+      pieces[1].style.visibility = 'visible'; // piece5
+    }, 200);
+
+    setTimeout(() => {
+      pieces[2].style.visibility = 'visible'; // piece4 appears aligned with piece5
+    }, 300);
+
+    setTimeout(() => {
+      pieces[0].style.transform = 'translateY(0)'; // piece6 slides up
+    }, 400); // Slower slide up for piece6
+
+    setTimeout(() => {
+      pieces[3].style.visibility = 'visible'; // piece3
+    }, 500);
+
+    setTimeout(() => {
+      pieces[2].style.transform = 'translateY(0)'; // piece6 slides up
+    }, 600); // Slower slide up for piece6
+
+    setTimeout(() => {
+      pieces[4].style.visibility = 'visible'; // piece2
+    }, 600);
+
+    setTimeout(() => {
+      pieces[5].style.visibility = 'visible'; // piece1
+    }, 700);
+  }
+
+  animateSequence(); // Call the animation sequence
+	
+	document.getElementById('links-container').style.opacity = '1';
+
+
+</script>
 </body>
 </html>
