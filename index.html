@@ -63,6 +63,30 @@
       visibility: hidden;
       transition: transform 0.6s ease;
     }
+	  
+	  #text-box p:first-of-type {
+  font-size: 3.2vw; /* adjust as needed */
+		  text-align: justify;
+  text-align-last: justify;
+}
+	  
+	 #text-box p:nth-of-type(2) {
+		   text-align: justify;
+  text-align-last: justify;
+}  
+	
+	  
+	  #text-box p:nth-of-type(n+3) {
+  font-size: 1.3vw; /* Adjust this value as needed */
+		  letter-spacing: 0vw;
+		  padding-top: 2vh;
+		  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60vw;
+		   text-align: center;
+}
+	
 
     .section {
       margin-top: 100vh; /* creates scroll space after hero */
@@ -75,20 +99,22 @@
     }
 
     .text-section {
-      width: 41vw;
-      max-width: 41vw;
-      text-align: center;
+      width: 60vw;
+      max-width: 60vw;
       line-height: 1.2;
       font-family: Monument-Semi-Mono;
 		letter-spacing: -0.05vw;
+		 text-align: justify;
+
     }
 
     #text-box {
-      font-size: 1.5vw;
+      font-size: 1.8vw;
     }
 
     .links-container {
       margin-top: 4vh;
+		line-height: 1.5vh;
       text-align: center;
       font-size: 1vw;
       font-family: Monument-Mono;
@@ -98,6 +124,7 @@
 
     .links-container a {
       text-decoration: none;
+  border-bottom: #000000 0.125em solid;
       color: black;
       margin: 0 1em;
       padding: 0.25em 0.5em;
@@ -107,6 +134,8 @@
     .links-container a:hover {
       background-color: black;
       color: white;
+		text-decoration: none;
+		border-bottom: none;
     }
 	  
 	   ::selection {
@@ -114,30 +143,17 @@
     color: white;
   }
 	  
-.grain {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-image: 
-    radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 3px 3px;
-  animation: grainShift 1s steps(5) infinite;
-  mix-blend-mode: overlay;
-  opacity: 0.4;
-}
-
-@keyframes grainShift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2%, 1%); }
-  50% { transform: translate(1%, -1%); }
-  75% { transform: translate(-1%, -2%); }
-  100% { transform: translate(0, 0); }
-}
+#footer-logo {
+  width: 5vw; /* Adjust size as needed */
+	padding-top: 5vh;
+bottom: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}  
+	  
 	  
 	  
 	  @media only screen and (max-width: 600px) {
@@ -150,6 +166,12 @@
         width: 74vw;
         max-width: 74vw;
       }
+		  
+		   #text-box p:first-of-type {
+  font-size: 5.2vw; /* adjust as needed */
+		  text-align: justify;
+  text-align-last: justify;
+}
 
       #text-box {
         font-size: 3.2vw;
@@ -158,13 +180,25 @@
       .links-container {
         font-size: 2.5vw;
       }
+		  
+		  #footer-logo {
+  width: 8vw; /* Adjust size as needed */
+	padding-top: 5vh;
+bottom: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} 
+		  
     }
 	  
   </style>
 </head>
 <body>
   <div class="hero" id="hero">
-    <img src="newcloud.png" alt="Cloud Fullscreen Image" />
+    <img src="trees.png" alt="Cloud Fullscreen Image" />
 	  <div class="grain"></div>
   </div>
 	
@@ -183,11 +217,15 @@
     <section class="text-section">
       <div id="text-box"></div>
     </section>
-    <div class="links-container" id="links-container">
+    <div class="links-container" id="links-container"><p>Get in touch with us:</p>
       <a href="mailto:hello@fieldlab.work">Contact</a>
       |
       <a href="https://www.linkedin.com/company/fieldlab-work/" target="_blank">LinkedIn</a>
     </div>
+	  
+	  <img id="footer-logo" src="favicon.png" alt="Field Lab Logo" />
+
+
 
 <script>
 	window.onbeforeunload = function () {
@@ -206,10 +244,10 @@
   const slideUpOffset = 154.121;
   const paragraphs = [
     "Field Lab is both a service and a platform—a way of working and a place for ideas to grow.",
-    "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology.",
-    "Our method blends research, cultural insight, and hands-on strategy.",
-    "We collaborate and embed guiding vision into action.",
-    "We develop original ventures, partner with founders, and support brand and product leaders who are navigating moments of creation or reinvention."
+    "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology. Our method blends research, cultural insight, and hands-on strategy.",
+    "↳ We collaborate and embed guiding vision into action.",
+    "↳ We develop original ventures, partner with founders.",
+	"↳ We support brand and product leaders navigating moments of creation or reinvention."
   ];
 
   function animateText() {
@@ -227,10 +265,20 @@
       });
     });
 
-    setTimeout(() => {
-      document.getElementById("links-container").style.opacity = '1';
-    }, delay + 0);
+   setTimeout(() => {
+  const links = document.getElementById("links-container");
+  const logo = document.getElementById("footer-logo");
+
+  links.style.opacity = '1';
+
+  // Fade in logo after links
+  setTimeout(() => {
+    logo.style.opacity = '1';
+  }, 800); // Adjust delay if needed
+}, delay + 100);
   }
+	
+	
 
   function resetPieces() {
     pieces.forEach((piece) => {
@@ -289,6 +337,9 @@
 
     lastScrollY = currentScroll;
   });
+	
+
+	
 </script>
 
 </body>
