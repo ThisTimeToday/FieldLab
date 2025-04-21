@@ -168,22 +168,41 @@ bottom: 0;
       }
 		  
 		   #text-box p:first-of-type {
-  font-size: 5.2vw; /* adjust as needed */
+  font-size: 5.5vw; /* adjust as needed */
 		  text-align: justify;
   text-align-last: justify;
 }
+		    
+	 #text-box p:nth-of-type(2) {
+	
+		   text-align: justify;
+  text-align-last: justify;
+}  
+	
+	  
+	  #text-box p:nth-of-type(n+3) {
+  font-size: 2.8vw; /* Adjust this value as needed */
+		  letter-spacing: 0vw;
+		  padding-top: 2vh;
+		  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60vw;
+		   text-align: center;
+}
 
       #text-box {
-        font-size: 3.2vw;
+        font-size: 3.5vw;
       }
 
       .links-container {
         font-size: 2.5vw;
+		  margin-top: 6vh;
       }
 		  
 		  #footer-logo {
-  width: 8vw; /* Adjust size as needed */
-	padding-top: 5vh;
+  width: 10vw; /* Adjust size as needed */
+	padding-top: 6vh;
 bottom: 0;
   opacity: 0;
   transition: opacity 1s ease;
