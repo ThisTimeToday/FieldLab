@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Field Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Field lab</title>
+	<link rel="icon" type="image/x-icon" href="favicon.png">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: white;
-      color: black;
+      height: 200vh; /* to allow scrolling */
       overflow-x: hidden;
-      box-sizing: border-box;
-      min-height: 100vh;
-      height: 100%;
+    }
+	  
+	  @font-face {
+      font-family: Monument-Mono;
+      src: url(ABCMonumentGroteskMono-Regular.otf);
     }
 
-@font-face {
-  font-family: Monument-Mono;
-  src: url(ABCMonumentGroteskMono-Regular.otf);
-}
+    @font-face {
+      font-family: Monument-Semi-Mono;
+      src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
+    }
 
-	  @font-face {
-  font-family: Monument-Semi-Mono;
-  src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
-}
-	  
     *,
     *::before,
     *::after {
-      box-sizing: inherit;
-    }
-
-    .hero, .section, .text-section {
-      min-height: 100vh;
+      box-sizing: border-box;
     }
 
     .hero {
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
-      padding: 2vw;
-      overflow: hidden;
+      z-index: -1;
+      transition: transform 0.6s ease;
+      transform-origin: center center;
+    }
+
+    .hero.shrink {
+      transform: scale(0.95); /* scale to 90% */
     }
 
     .hero img {
@@ -49,13 +49,14 @@
       height: 100%;
       object-fit: cover;
     }
-
-    #svg-container {
+	  
+	   #svg-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 25vw;
+      z-index: 1;
     }
 
     svg path {
@@ -64,7 +65,8 @@
     }
 
     .section {
-      height: 100vh;
+      margin-top: 100vh; /* creates scroll space after hero */
+      min-height: 100vh;
       background: white;
       display: flex;
       flex-direction: column;
@@ -75,79 +77,93 @@
     .text-section {
       width: 45vw;
       max-width: 45vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       text-align: center;
       line-height: 1.2;
-      white-space: normal;
-      word-wrap: break-word;
-	      font-family: Monument-Semi-Mono;
+      font-family: Monument-Semi-Mono;
+		letter-spacing: -0.05vw;
     }
 
     #text-box {
-      width: 100%;
       font-size: 1.5vw;
     }
-	 
-	  .links-container {
-  margin-bottom: 6vh;
-  text-align: center;
-  font-size: 1vw;
-  opacity: 0;
-  transition: opacity 1s ease;
-		   font-family: Monument-Mono;
-}
+
+    .links-container {
+      margin-top: 4vh;
+      text-align: center;
+      font-size: 1vw;
+      font-family: Monument-Mono;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .links-container a {
+      text-decoration: none;
+      color: black;
+      margin: 0 1em;
+      padding: 0.25em 0.5em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .links-container a:hover {
+      background-color: black;
+      color: white;
+    }
 	  
-.links-container a {
-  text-decoration: none;
-  color: black;
-  margin: 0 1em;
-  padding: 0.25em 0.5em;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.links-container a:hover {
-  background-color: black;
-  color: white;
+	   ::selection {
+    background: black;
+    color: white;
+  }
+	  
+	  .grain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  background: 
+    repeating-radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 2px),
+    repeating-radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 2px);
+  animation: grainMove 1.5s steps(10) infinite;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
 }
 
+@keyframes grainMove {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1%); }
+  50% { transform: translate(1%, -1%); }
+  75% { transform: translate(-1%, -2%); }
+  100% { transform: translate(0, 0); }
+}
 	  
 	  
 	  @media only screen and (max-width: 600px) {
-		  
-		   .text-section {
-      width: 70vw;
-      max-width: 80vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      line-height: 1.3;
-      white-space: normal;
-      word-wrap: break-word;
-    }
-		  
-  #text-box {
-      width: 100%;
-      font-size: 3.2vw;
-    }
-		  
-		  .links-container {
-  margin-bottom: 12vh;
-  text-align: center;
-  font-size: 2.5vw;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-		  
-}
+      .text-section {
+        width: 80vw;
+        max-width: 90vw;
+      }
 
+      #text-box {
+        font-size: 3.2vw;
+      }
+
+      .links-container {
+        font-size: 2.5vw;
+      }
+    }
+	  
   </style>
 </head>
 <body>
-  <div class="hero">
-    <img src="cloud.png" alt="Cloud background">
-    <div id="svg-container">
+<div class="grain-overlay"></div>
+  <div class="hero" id="hero">
+    <img src="newcloud.png" alt="Cloud Fullscreen Image" />
+	  
+  </div>
+	
+	<div id="svg-container">
       <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" fill="white"/>
         <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" fill="white"/>
@@ -157,21 +173,22 @@
         <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" fill="white"/>
       </svg>
     </div>
-  </div>
 
   <div class="section">
     <section class="text-section">
       <div id="text-box"></div>
     </section>
-	<div class="links-container" id="links-container">
-  <a href="mailto:hello@fieldlab.work">Contact</a>
-  |
-  <a href="https://www.linkedin.com/company/fieldlab-work/" target="_blank">LinkedIn</a>
-
-</div>
-  </div>
+    <div class="links-container" id="links-container">
+      <a href="mailto:hello@fieldlab.work">Contact</a>
+      |
+      <a href="https://www.linkedin.com/company/fieldlab-work/" target="_blank">LinkedIn</a>
+    </div>
 
 <script>
+	window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+};
+	
   const pieces = [
     document.getElementById('piece6'),
     document.getElementById('piece5'),
@@ -181,9 +198,7 @@
     document.getElementById('piece1')
   ];
 
-  const slideUpOffset = 154.121; // amount to slide up from piece5's y
-
-  // Updated text to animate word by word
+  const slideUpOffset = 154.121;
   const paragraphs = [
     "Field Lab is both a service and a platform—a way of working and a place for ideas to grow.",
     "We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology.",
@@ -192,7 +207,6 @@
     "We develop original ventures, partner with founders, and support brand and product leaders who are navigating moments of creation or reinvention."
   ];
 
-  // Animate text once, word by word
   function animateText() {
     const textBox = document.getElementById("text-box");
     let delay = 0;
@@ -204,9 +218,13 @@
         setTimeout(() => {
           p.innerHTML += word + " ";
         }, delay);
-        delay += 100; // 100ms delay between each word
+        delay += 100;
       });
     });
+
+    setTimeout(() => {
+      document.getElementById("links-container").style.opacity = '1';
+    }, delay + 100);
   }
 
   function resetPieces() {
@@ -214,59 +232,59 @@
       piece.style.visibility = 'hidden';
       piece.style.transform = 'translateY(0)';
     });
-
-    // Initial position for piece6 and piece4 to simulate bottom-alignment with piece5
-    pieces[0].style.transform = `translateY(${slideUpOffset}px)`; // piece6
-    pieces[2].style.transform = `translateY(${slideUpOffset}px)`; // piece4
+    pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+    pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
   }
 
   function animateSequence() {
     resetPieces();
-
-    // Set up the text animation once
-    if (!document.getElementById("text-box").innerHTML) {
-      animateText(); // Animate text only once
+    if (!document.getElementById("text-box").innerHTML.trim()) {
+      animateText();
     }
 
-    // SVG animation
-    setTimeout(() => {
-      pieces[0].style.visibility = 'visible'; // piece6 stays aligned with piece5
-    }, 100);
-
-    setTimeout(() => {
-      pieces[1].style.visibility = 'visible'; // piece5
-    }, 200);
-
-    setTimeout(() => {
-      pieces[2].style.visibility = 'visible'; // piece4 appears aligned with piece5
-    }, 300);
-
-    setTimeout(() => {
-      pieces[0].style.transform = 'translateY(0)'; // piece6 slides up
-    }, 400); // Slower slide up for piece6
-
-    setTimeout(() => {
-      pieces[3].style.visibility = 'visible'; // piece3
-    }, 500);
-
-    setTimeout(() => {
-      pieces[2].style.transform = 'translateY(0)'; // piece6 slides up
-    }, 600); // Slower slide up for piece6
-
-    setTimeout(() => {
-      pieces[4].style.visibility = 'visible'; // piece2
-    }, 600);
-
-    setTimeout(() => {
-      pieces[5].style.visibility = 'visible'; // piece1
-    }, 700);
+    setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+    setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+    setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+    setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+    setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+    setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+    setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+    setTimeout(() => pieces[5].style.visibility = 'visible', 700);
   }
 
-  animateSequence(); // Call the animation sequence
-	
-	document.getElementById('links-container').style.opacity = '1';
+  // Start with animation
+  animateSequence();
 
+  const hero = document.getElementById('hero');
+  let lastScrollY = window.scrollY;
 
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+
+    // Hero image shrink
+    if (currentScroll > 10) {
+      hero.classList.add('shrink');
+    } else {
+      hero.classList.remove('shrink');
+    }
+
+    // Scrolling down triggers SVG to disappear left to right
+    if (currentScroll > lastScrollY && currentScroll > 50) {
+      pieces.forEach((piece, i) => {
+        setTimeout(() => {
+          piece.style.visibility = 'hidden';
+        }, i * 100); // staggered instant hide
+      });
+    }
+
+    // Scrolling up resets and reanimates
+    if (currentScroll < lastScrollY && currentScroll < 30) {
+      animateSequence();
+    }
+
+    lastScrollY = currentScroll;
+  });
 </script>
+
 </body>
 </html>
