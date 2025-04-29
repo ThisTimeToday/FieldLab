@@ -204,7 +204,14 @@ padding-bottom: 0.5em;
       color: black;
     }
 
-  
+  #hero-image {
+  transition: opacity 1s ease-in-out;
+  opacity: 1;
+}
+	  
+	  #svg-container {
+  cursor: pointer;
+}
 	 
 	  
 	  
@@ -230,13 +237,13 @@ padding-bottom: 0.5em;
   .text-row {
     flex-direction: column;
     width: 100%;
-    gap: 5vw;
+    gap: 4vw;
   }
 
   .text-box-large {
     width: 100%;
     font-size: 8.2vw;
-    margin-top: 20vw;
+    margin-top: 15vw;
 	  line-height: 1;
   }
 
@@ -266,7 +273,7 @@ padding-bottom: 0.5em;
   }
 
   .links-container {
-    bottom: 5.5vw;
+    bottom: 2vw;
 	  right: 2vw;
     font-size: 3vw;
   }
@@ -279,7 +286,7 @@ padding-bottom: 0.5em;
 	   
 	   #footer-logo {
   position: absolute;
-  bottom: 10vw; /* Same as .links-container */
+  bottom: 5vw; /* Same as .links-container */
   left: 2vw; /* Opposite of links */
   width: 20vw; /* Same size you were using */
   opacity: 1; /* Always visible now */
@@ -291,7 +298,7 @@ padding-bottom: 0.5em;
 </head>
 <body>
   <div class="hero" id="hero">
-    <img src="newcloud.png" alt="Hero Image" />
+    <img id="hero-image" src="newcloud.png" alt="Hero Image" />
   </div>
 
   <div id="svg-container">
@@ -399,7 +406,6 @@ function toggleFooterLogoVisibility() {
 
 // ——————— Init ———————
 resetPieces();
-toggleFooterLogoVisibility();
 animateSVG();
 
 // ——————— Scroll behavior ———————
@@ -426,12 +432,41 @@ window.addEventListener('scroll', () => {
     animateSVG();
   }
 
-  toggleFooterLogoVisibility();
+ 
   lastScrollY = currentScroll;
 });
 
-window.addEventListener('resize', toggleFooterLogoVisibility);
-window.addEventListener('load', toggleFooterLogoVisibility);
+
+	
+	// Custom scroll function with adjustable speed
+function scrollToBottom(duration = 1) {
+  const start = window.scrollY;
+  const end = document.body.scrollHeight - window.innerHeight;
+  const distance = end - start;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : -1 + (4 - 2 * progress) * progress;
+
+    window.scrollTo(0, start + distance * ease);
+
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  }
+
+  requestAnimationFrame(animation);
+}
+
+document.getElementById('svg-container').addEventListener('click', function () {
+  scrollToBottom(1000); // 👈 adjust this number to control speed (ms)
+});
+	
 </script>
 	
 </body>
