@@ -267,12 +267,15 @@ padding-bottom: 0.5em;
 	  letter-spacing: 0.3vw;
   }
 
-  #footer-logo {
-    position: absolute;
-    bottom: 2vw;
-    left: 2vw;
-    width: 18vw;
-  }
+	   #footer-logo {
+  position: absolute;
+  bottom: 2vw; /* Same as .links-container */
+  left: 2vw; /* Opposite of links */
+  width: 18vw; /* Same size you were using */
+  opacity: 1; /* Always visible now */
+  z-index: 10;
+}
+	   
 
   .links-container {
     bottom: 2vw;
