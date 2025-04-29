@@ -218,21 +218,21 @@ padding-bottom: 0.5em;
    @media only screen and (max-width: 800px) {
   
 	   .section {
-		   display: flex;
-  flex-direction: column;
-  justify-content: center; /* Vertically center */
-  min-height: 100vh;       /* Take full height of viewport */
 		   
   margin-top: 100vh;
   background: white;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
   position: relative;
   box-sizing: border-box;
   padding: 2vh 2vw 2vh 2vw; /* Padding to give breathing room */
 }
 	   
   .text-wrapper {
-   margin: 0 auto;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .text-row {
@@ -244,9 +244,16 @@ padding-bottom: 0.5em;
   .text-box-large {
     width: 100%;
     font-size: 8.2vw;
-    margin-top: 2vw;
+    margin-top: 20vw;
 	  line-height: 1;
 	  margin-bottom: 3vw;
+  }
+
+  .text-side-column {
+    width: 100%;
+    margin-top: 2vw;
+    gap: 6vw;
+	  
   }
 
   .text-small {
