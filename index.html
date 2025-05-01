@@ -93,7 +93,9 @@
 
 .text-row {
 	 justify-content: space-between;
-  display: flex;
+   display: flex;
+  flex-direction: column; /* stack elements */
+  
   align-items: flex-start; /* <-- important: top-align the large text and the side column */
   width: 100%;
   gap: 3vw;
@@ -101,24 +103,25 @@
 }
 
 .text-box-large {
-  width: 68vw;
-  font-size: 6vw;
+  width: 100vw;
+  font-size: 10vw;
   line-height: 0.90;
   text-align: left;
   letter-spacing: -0.1vw;
   font-family: Monument-Grotesk;
+	margin-bottom: 5vw;
 	
 }
 
 .text-side-column {
-  width: 22vw;
+  width: 50vw;
   display: flex;
-  flex-direction: column;
-  gap: 6vh; /* space between small text blocks */
+  flex-direction: row;
+  gap: 5vh; /* space between small text blocks */
 }
 
 .text-small {
-  font-size: 1.15vw;
+  font-size: 1.2vw;
   line-height: 1.2;
   letter-spacing: -0.05vw;
   font-family: Monument-Mono;
@@ -126,7 +129,7 @@
 	  
 	  h4 {
   margin: 0 0 2vh 0; /* adds space below the heading */
-  font-size: 0.65vw;
+  font-size: 1vw;
   font-family: Monument-Mono-Bold;
 	text-transform: uppercase;
 
@@ -140,13 +143,14 @@
   width: 8.5vw; /* Same size you were using */
   opacity: 1; /* Always visible now */
   z-index: 10;
+	display: none;
 } 
 	  #wordmark-container {
 	 
 		  position: absolute;
   top: 1.5vw;
   left: 2.5vw;
-  width: 34vw;
+  width: 17vw;
   z-index: 10;
 		  transition: opacity 0.2s ease;
 
@@ -157,7 +161,8 @@
 	  
 .links-container {
   position: absolute;
-  bottom: 1vw;
+  bottom: 1.5vw;
+	right: 2vw;
   font-family: Monument-Mono;
   font-size: 0.8125vw;
   z-index: 10;
@@ -236,38 +241,39 @@ padding-bottom: 0.5em;
   }
 
   .text-row {
-    flex-direction: column;
-    width: 100%;
-    gap: 4vw;
+    justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+	  flex-direction: column;
   }
 
   .text-box-large {
     width: 100%;
-    font-size: 8.2vw;
-    margin-top: 20vw;
-	  line-height: 1;
-	  margin-bottom: 3vw;
+    font-size: 12vw;
+    margin-top: 40vw;
+	  line-height: 0.9;
+	  letter-spacing: -0.1vw;
+	  margin-bottom: 10vw;
   }
 
-  .text-side-column {
-    width: 100%;
-    margin-top: 2vw;
-    gap: 6vw;
-	  
+    .text-side-column {
+    width: 100vw;
+    flex-direction: column;
+    gap: 4vh;
   }
 
   .text-small {
     font-size: 3.5vw;
-    line-height: 1.3;
-	  margin-left: 22vw;
+    width: 90vw;
   }
 
   h4 {
-    font-size: 2.25vw;
+    font-size: 3vw;
 	  letter-spacing: 0.3vw;
   }
 
 	   #footer-logo {
+		   display: none;
   position: absolute;
   bottom: 2vw; /* Same as .links-container */
   left: 2vw; /* Opposite of links */
@@ -329,19 +335,16 @@ padding-bottom: 0.5em;
 		  <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
 		
       <div class="text-box-large">
-We are an interdisciplinary team exploring the evolving relationship between people, nature, and technology.
+We are a creative futures company
       </div>
       <div class="text-side-column">
         <div class="text-small">
-          Our approach combines research, cultural insight, and hands-on strategy. We collaborate, embed, and help build — turning ideas into outcomes.
+         Founded by a small team of seasoned, cross-disciplinary thinkers, we explore the evolving relationships between people, technology, and nature, existing as a synergy of a people-centric approach, technological advancement, and our planet.
         </div>
+     
         <div class="text-small">
-          <h4>Our Service</h4>
-			We support founders, brand leaders, and product teams to help navigate moments of creation or reinvention.
-        </div>
-        <div class="text-small">
-          <h4>Our PLATFORM</h4>
-			We develop original ventures and create space for ideas to grow and become real.
+  
+			We cultivate partnerships with like-minded leaders, organizations, researchers, and communities to accelerate positive change, provide a sandbox for experimenting, an icubator for new to world ideas, and identify new growth vectors.
         </div>
 		 <div class="links-container">
     <h4><a href="mailto:hello@fieldlab.work">let's get in touch →</a></h4>
