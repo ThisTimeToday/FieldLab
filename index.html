@@ -6,6 +6,12 @@
   <title>Field Lab</title>
   <link rel="icon" href="favicon.png" />
   <style>
+	  
+	  
+img {
+  pointer-events: none;
+}	  
+	  
     html, body {
       margin: 0;
       padding: 0;
@@ -34,26 +40,48 @@
       src: url("ABCMonumentGrotesk-Regular.ttf");
     }
 
-    .hero {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      transition: transform 0.6s ease;
-      transform-origin: center center;
-    }
+	  
+   .hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  transition: transform 0.6s ease;
+  transform-origin: center center;
+  overflow: hidden;
+}
 
-    .hero.shrink {
-      transform: scale(0.95);
-    }
+.hero.shrink {
+  transform: scale(0.95);
+}
 
-    .hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.hero-half {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 1s ease;
+}
+
+.hero-half.left {
+  width: 100vw;
+  height: 100vh;
+	bottom: 0vw;
+	left: 2vw;
+	background-position: center;
+	  background-size: cover;
+	/* optional specific styles */
+}
+
+.hero-half.right {
+  /* optional specific styles */
+}
+
+    
 
     #svg-container {
       position: absolute;
@@ -130,7 +158,7 @@
 	  h4 {
   margin: 0 0 2vh 0; /* adds space below the heading */
   font-size: 1vw;
-  font-family: Monument-Mono-Bold;
+  font-family: Monument-Mono;
 	text-transform: uppercase;
 
 		  letter-spacing: 0.05vw;
@@ -161,7 +189,7 @@
 	  
 .links-container {
   position: absolute;
-  bottom: 1.5vw;
+  bottom: 1.75vw;
 	right: 2vw;
   font-family: Monument-Mono;
   font-size: 0.8125vw;
@@ -232,7 +260,7 @@ padding-bottom: 0.5em;
   min-height: 100vh;
   position: relative;
   box-sizing: border-box;
-  padding: 2vh 2vw 2vh 2vw; /* Padding to give breathing room */
+  padding: 3vh 3vw 3vh 3vw; /* Padding to give breathing room */
 }
 	   
   .text-wrapper {
@@ -264,7 +292,7 @@ padding-bottom: 0.5em;
 
   .text-small {
     font-size: 3.5vw;
-    width: 90vw;
+    width: 88vw;
   }
 
   h4 {
@@ -284,14 +312,14 @@ padding-bottom: 0.5em;
 	   
 
   .links-container {
-    bottom: 2vw;
-	  right: 2vw;
+    bottom: 5vw;
+	  right: 3vw;
     font-size: 3vw;
   }
 
   #wordmark-container {
     width: 95vw;
-    top: 2vw;
+    top: 6vw;
     left: 2.5vw;
   }
 	   
@@ -309,8 +337,9 @@ padding-bottom: 0.5em;
 </head>
 <body>
   <div class="hero" id="hero">
-    <img id="hero-image" src="newcloud.png" alt="Hero Image" />
-  </div>
+  <div class="hero-half left" id="hero-left"></div>
+  <div class="hero-half right" id="hero-right"></div>
+</div>
 
   <div id="svg-container">
     <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -339,12 +368,12 @@ We are a creative futures company
       </div>
       <div class="text-side-column">
         <div class="text-small">
-         Founded by a small team of seasoned, cross-disciplinary thinkers, we explore the evolving relationships between people, technology, and nature, existing as a synergy of a people-centric approach, technological advancement, and our planet.
+         Founded by a small team of seasoned, cross-disciplinary thinkers, we explore the evolving relationships between people, technology, and nature — existing as a synergy of a human-centric approach, technological advancement, and a appreciate for our planet.
         </div>
      
         <div class="text-small">
   
-			We cultivate partnerships with like-minded leaders, organizations, researchers, and communities to accelerate positive change, provide a sandbox for experimenting, an icubator for new to world ideas, and identify new growth vectors.
+			We cultivate partnerships with like-minded leaders, organizations, researchers, and communities to accelerate positive change, provide a sandbox for experimenting, an icubator for new to world ideas, and identify future growth vectors.
         </div>
 		 <div class="links-container">
     <h4><a href="mailto:hello@fieldlab.work">let's get in touch →</a></h4>
@@ -363,6 +392,46 @@ We are a creative futures company
 </div>
 	
 <script>
+	
+	document.addEventListener('contextmenu', event => event.preventDefault()); // Disable right-click
+  document.addEventListener('dragstart', event => event.preventDefault());   // Disable image dragging
+
+	
+		const heroLeft = document.getElementById('hero-left');
+const heroRight = document.getElementById('hero-right');
+
+const heroImages = [
+  'newcloud.png',
+  'trees.png'
+]; // make sure these exist in your /images folder
+
+function getRandomPair(images) {
+  const shuffled = [...images].sort(() => 0.5 - Math.random());
+  return [shuffled[0], shuffled[1] || shuffled[0]]; // fallback if only one image
+}
+
+const [leftImg, rightImg] = getRandomPair(heroImages);
+
+// Preload and apply with fade-in
+[heroLeft, heroRight].forEach((el, i) => {
+  el.style.opacity = 0;
+  el.style.transition = 'opacity 1s ease';
+});
+
+const left = new Image();
+left.src = `images/${leftImg}`;
+left.onload = () => {
+  heroLeft.style.backgroundImage = `url('images/${leftImg}')`;
+  heroLeft.style.opacity = 1;
+};
+
+const right = new Image();
+right.src = `images/${rightImg}`;
+right.onload = () => {
+  heroRight.style.backgroundImage = `url('images/${rightImg}')`;
+  heroRight.style.opacity = 1;
+};
+	
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 };
@@ -474,6 +543,7 @@ function scrollToBottom(duration = 1) {
 document.getElementById('svg-container').addEventListener('click', function () {
   scrollToBottom(1000); // 👈 adjust this number to control speed (ms)
 });
+	
 	
 </script>
 	
