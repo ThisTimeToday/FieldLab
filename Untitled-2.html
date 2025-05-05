@@ -275,7 +275,7 @@ padding-bottom: 0.5em;
   .text-box-large {
     width: 100%;
     font-size: 12vw;
-margin-top: 25vw;
+
 	  line-height: 0.9;
 	  letter-spacing: -0.1vw;
 	  margin-bottom: 5vw;
@@ -365,83 +365,94 @@ Our platform — We create space for ventures to take shape — evolving through
     </div>
   </div>
 	
+<script>
+  // Select the info box, link, and close button
+  const infoBox = document.getElementById('info-box');
+  const infoLink = document.getElementById('info-link');
+  const closeBtn = document.getElementById('close-btn');
+  const pieces = [
+    document.getElementById('piece6'),
+    document.getElementById('piece5'),
+    document.getElementById('piece4'),
+    document.getElementById('piece3'),
+    document.getElementById('piece2'),
+    document.getElementById('piece1')
+  ];
 
-  <script>
-    // Select the info box, link, and close button
-    const infoBox = document.getElementById('info-box');
-    const infoLink = document.getElementById('info-link');
-    const closeBtn = document.getElementById('close-btn');
-    const pieces = [
-      document.getElementById('piece6'),
-      document.getElementById('piece5'),
-      document.getElementById('piece4'),
-      document.getElementById('piece3'),
-      document.getElementById('piece2'),
-      document.getElementById('piece1')
-    ];
+  const slideUpOffset = 154.121;
 
-    const slideUpOffset = 154.121;
+  function resetPieces() {
+    pieces.forEach((piece) => {
+      piece.style.visibility = 'hidden';
+      piece.style.transform = 'translateY(0)';
+    });
+    pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+    pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
+  }
 
-    function resetPieces() {
-      pieces.forEach((piece) => {
+  function animateSVG() {
+    resetPieces();
+    setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+    setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+    setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+    setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+    setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+    setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+    setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+    setTimeout(() => pieces[5].style.visibility = 'visible', 700);
+  }
+
+  function reverseSVG() {
+    pieces.forEach((piece, index) => {
+      setTimeout(() => {
         piece.style.visibility = 'hidden';
-        piece.style.transform = 'translateY(0)';
-      });
-      pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
-      pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
-    }
-
-    function animateSVG() {
-      resetPieces();
-      setTimeout(() => pieces[0].style.visibility = 'visible', 10);
-      setTimeout(() => pieces[1].style.visibility = 'visible', 200);
-      setTimeout(() => pieces[2].style.visibility = 'visible', 300);
-      setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
-      setTimeout(() => pieces[3].style.visibility = 'visible', 500);
-      setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
-      setTimeout(() => pieces[4].style.visibility = 'visible', 600);
-      setTimeout(() => pieces[5].style.visibility = 'visible', 700);
-    }
-
-    function reverseSVG() {
-      pieces.forEach((piece, index) => {
-        setTimeout(() => {
-          piece.style.visibility = 'hidden';
-        }, index * 100);
-      });
-    }
-
-    // Initial SVG animation when the page loads
-    window.onload = function() {
-      animateSVG();
-    };
-
-    // Toggle visibility of the info box on INFO link click
-    infoLink.addEventListener('click', () => {
-      infoBox.classList.toggle('visible');
-      reverseSVG();
+      }, index * 100);
     });
+  }
 
-    // Close the info box and reverse the SVG animation on clicking the "X"
-    closeBtn.addEventListener('click', () => {
-      infoBox.classList.remove('visible');
-      animateSVG();
-    });
+  // Initial SVG animation when the page loads
+  window.onload = function() {
+    animateSVG();
+  };
 
-    // Hero image handling: preload images and apply background
-    const heroLeft = document.getElementById('hero-left');
-    const heroRight = document.getElementById('hero-right');
-    const heroImages = [
-      'mountain.png',
-      'mountain2.png'
-    ];
+  // Toggle visibility of the info box on INFO link click
+  infoLink.addEventListener('click', () => {
+    infoBox.classList.toggle('visible');
+    reverseSVG();
+  });
 
-    function getRandomPair(images) {
-      const shuffled = [...images].sort(() => 0.5 - Math.random());
-      return [shuffled[0], shuffled[1] || shuffled[0]];
-    }
+  // Close the info box and reverse the SVG animation on clicking the "X"
+  closeBtn.addEventListener('click', () => {
+    infoBox.classList.remove('visible');
+    animateSVG();
+  });
 
-    const [leftImg, rightImg] = getRandomPair(heroImages);
+  // Hero image handling: preload images and apply background
+  const heroLeft = document.getElementById('hero-left');
+  const heroRight = document.getElementById('hero-right');
+
+  // Define the image pairs (always paired based on their numbering)
+  const heroImages = [
+    ['mountain2.png', 'mountain1.png'],
+    ['green1.png', 'green2.png']
+    // Add more pairs here as needed
+  ];
+
+  // Function to cycle through the image pairs in order
+  let currentPairIndex = parseInt(localStorage.getItem('currentPairIndex')) || 0; // Get the current pair index from local storage or start at 0
+
+  function getNextPair(images) {
+    const pair = images[currentPairIndex];
+    // Increment the index and cycle back to 0 after the last pair
+    currentPairIndex = (currentPairIndex + 1) % images.length;
+    // Save the updated index to localStorage
+    localStorage.setItem('currentPairIndex', currentPairIndex);
+    return pair; // Return the next pair
+  }
+
+  // Function to update the hero image when clicked
+  function updateHeroImages() {
+    const [leftImg, rightImg] = getNextPair(heroImages); // Get the next image pair
 
     [heroLeft, heroRight].forEach((el) => {
       el.style.opacity = 0;
@@ -463,6 +474,14 @@ Our platform — We create space for ventures to take shape — evolving through
       heroRight.style.backgroundImage = `url('images/${rightImg}')`;
       heroRight.style.opacity = 1;
     });
-  </script>
+  }
+
+  // Initially load the first image pair
+  updateHeroImages();
+
+  // Add click event listener to cycle through image pairings
+  document.querySelector('.hero').addEventListener('click', updateHeroImages);
+</script>
+	  
 </body>
 </html>
