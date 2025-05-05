@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Field Lab</title>
+  <link rel="icon" href="favicon.png" />
+  <style>
+    img {
+      pointer-events: none;
+    }	  
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Monument-Semi-Mono, sans-serif;
+    }
+	  
+	  @font-face {
+      font-family: Monument-Mono;
+      src: url(ABCMonumentGroteskMono-Regular.otf);
+    }
+
+    @font-face {
+      font-family: Monument-Semi-Mono;
+      src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
+    }
+	  
+	   @font-face {
+      font-family: Monument-Mono-Bold;
+      src: url(ABCMonumentGroteskMono-Bold.otf);
+    }
+	  
+	  @font-face {
+      font-family: Monument-Grotesk;
+      src: url("ABCMonumentGrotesk-Regular.ttf");
+    }
+
+
+    .hero {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      transition: transform 0.6s ease;
+      transform-origin: center center;
+      overflow: hidden;
+    }
+
+    .hero.shrink {
+      transform: scale(0.95);
+    }
+
+    .hero-half {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 1s ease;
+    }
+
+    .hero-half.left {
+      width: 100vw;
+      height: 100vh;
+      bottom: 0vw;
+      left: 2vw;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .hero-half.right {
+      /* optional specific styles */
+    }
+
+    #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20vw;
+      z-index: 1;
+    }
+
+    svg path {
+      visibility: hidden;
+      transition: transform 0.6s ease;
+    }
+
+    .section {
+      margin-top: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      box-sizing: border-box;
+      padding: 2vh 2vw 2vh 2vw; /* Padding to give breathing room */
+    }
+
+    .text-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .text-row {
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      gap: 3vw;
+      margin-top: 0vw;
+    }
+
+    .text-box-large {
+      width: 100vw;
+      font-size: 10vw;
+      line-height: 0.90;
+      text-align: left;
+      letter-spacing: -0.1vw;
+      font-family: Monument-Grotesk;
+      margin-bottom: 5vw;
+    }
+
+    .text-side-column {
+      width: 50vw;
+      display: flex;
+      flex-direction: row;
+      gap: 5vh; /* space between small text blocks */
+    }
+
+    .text-small {
+      font-size: 1.2vw;
+      line-height: 1.2;
+      letter-spacing: -0.05vw;
+      font-family: Monument-Mono;
+    }
+
+    h4 {
+      margin: 0 0 2vh 0; /* adds space below the heading */
+      font-size: 1vw;
+      font-family: Monument-Mono;
+      text-transform: uppercase;
+      letter-spacing: 0.05vw;
+    }
+
+    #footer-logo {
+      position: absolute;
+      bottom: 2vw; /* Same as .links-container */
+      left: 2vw; /* Opposite of links */
+      width: 8.5vw; /* Same size you were using */
+      opacity: 1; /* Always visible now */
+      z-index: 10;
+      display: none;
+    }
+
+    #wordmark-container {
+      position: absolute;
+      top: 1.5vw;
+      left: 2.5vw;
+      width: 17vw;
+      z-index: 10;
+      transition: opacity 0.2s ease;
+    }
+
+    .links-container {
+      position: absolute;
+      bottom: 1.75vw;
+      right: 2vw;
+      font-family: Monument-Mono;
+      font-size: 0.8125vw;
+      z-index: 10;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .links-container a {
+      text-decoration: none;
+      color: black;
+      margin-right: 1em;
+      border-bottom: 1px solid black;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding-bottom: 0.5em;
+      justify-content: space-between;
+    }
+
+    .links-container a:hover {
+      background: white;
+      color: black;
+      border-bottom: 2px solid black;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding-bottom: 0.5em;
+      padding-top: 0.5em;
+      justify-content: space-between;
+    }
+
+    .links-container a:visited {
+      background: white;
+      color: black;
+      border-bottom: 1px solid black;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding-bottom: 0.5em;
+      justify-content: space-between;
+    }
+
+    ::selection {
+      background: black;
+      color: black;
+    }
+
+    #hero-image {
+      transition: opacity 1s ease-in-out;
+      opacity: 1;
+    }
+
+    #svg-container {
+      cursor: pointer;
+    }
+
+    /* INFO box styles */
+    #info-link {
+      position: absolute;
+      bottom: 2vw;
+      left: 2vw;
+      font-family: Monument-Mono;
+      font-size: 1.2vw;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+	  
+	  #info-link:hover {
+      text-decoration: underline;
+    }
+
+    .info-box {
+      position: absolute;
+      bottom: -25vh;
+      left: 0;
+      width: 100vw;
+      height: 25vh;
+      background-color: white;
+      padding: 2vw;
+      font-family: Monument-Mono;
+      font-size: 1vw;
+      color: black;
+      overflow-y: auto;
+      transition: bottom 0.6s ease;
+      box-sizing: border-box;
+		
+    }
+
+    .info-box.visible {
+      bottom: 0;
+    }
+
+    .text-small {
+      font-size: 1vw;
+      line-height: 1.5;
+		width: 90vw;
+		
+    }
+
+    /* Close Button (X) inside info box */
+    .close-btn {
+      position: absolute;
+      bottom: 2vw;
+      left: 2vw;
+ 
+		padding-top: 20vw;
+      cursor: pointer;
+      color: black;
+      font-family: Monument-Mono;
+      font-size: 1.2vw;
+      transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: black;
+    }
+
+    /* Optional: for mobile view */
+    @media only screen and (max-width: 800px) {
+      #info-link {
+        font-size: 3vw;
+        bottom: 5vw;
+        left: 5vw;
+      }
+
+      .info-box {
+        bottom: -30vh;
+        padding: 5vw;
+        font-size: 4vw;
+      }
+
+      .close-btn {
+        font-size: 5vw;
+        left: 4vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero" id="hero">
+    <div class="hero-half left" id="hero-left"></div>
+    <div class="hero-half right" id="hero-right"></div>
+  </div>
+
+  <div id="svg-container">
+    <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" fill="white"/>
+      <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" fill="white"/>
+      <path id="piece3" d="M1233.33 154.121H925V308.245H1233.33V154.121Z" fill="white"/>
+      <path id="piece4" d="M924.998 0H616.665V154.124H924.998V0Z" fill="white"/>
+      <path id="piece5" d="M616.669 154.121H308.335V308.245H616.669V154.121Z" fill="white"/>
+      <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="text-wrapper">
+      <div class="text-row">
+        <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
+        <div class="text-box-large">
+          We are a creative futures company
+        </div>
+        <div class="text-side-column">
+          <div class="text-small">
+            Founded by a small team of seasoned, cross-disciplinary thinkers, we explore the evolving relationships between people, technology, and nature — existing as a synergy of a human-centric approach, technological advancement, and appreciation for our planet.
+          </div>
+          <div class="text-small">
+            We cultivate partnerships with like-minded leaders, organizations, researchers, and communities to accelerate positive change, provide a sandbox for experimenting, an incubator for new world ideas, and identify future growth vectors.
+          </div>
+          <div class="links-container">
+            <h4><a href="mailto:hello@fieldlab.work">let's get in touch →</a></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img id="footer-logo" src="symbol.png" alt="Field Lab Logo"/>
+  </div>
+
+  <!-- INFO Box and Link -->
+  <div id="info-link">INFO</div>
+  <div class="info-box" id="info-box">
+    <div class="close-btn" id="close-btn">X</div>
+    <div class="text-small">
+FieldLab is a strategic practice built for motion — operating where people, technology, and the natural world meet. We don’t chase control; we work within complexity, with precision and care. Our method is dimensional: observed in context, shaped through making, and refined by use. We follow curiosity, not convention — uncovering meaningful signals, shaping enduring ideas, and designing systems that behave well in the real world.    </div>
+   
+  </div>
+
+  <script>
+    // Select the info box, link, and close button
+    const infoBox = document.getElementById('info-box');
+    const infoLink = document.getElementById('info-link');
+    const closeBtn = document.getElementById('close-btn');
+
+    // Toggle visibility of the info box on INFO link click
+    infoLink.addEventListener('click', () => {
+      infoBox.classList.toggle('visible');
+    });
+
+    // Close the info box on clicking the "X"
+    closeBtn.addEventListener('click', () => {
+      infoBox.classList.remove('visible');
+    });
+
+    // Existing Hero Image Click Code
+    const heroLeft = document.getElementById('hero-left');
+    const heroRight = document.getElementById('hero-right');
+
+    const heroImages = [
+      'newcloud.png',
+      'trees.png',
+      'eye.png',
+      'mountain.png',
+      'tarp.png'
+    ];
+
+    function getRandomPair(images) {
+      const shuffled = [...images].sort(() => 0.5 - Math.random());
+      return [shuffled[0], shuffled[1] || shuffled[0]];
+    }
+
+    const [leftImg, rightImg] = getRandomPair(heroImages);
+
+    [heroLeft, heroRight].forEach((el) => {
+      el.style.opacity = 0;
+      el.style.transition = 'opacity 1s ease';
+    });
+
+    const preloadImage = (src, callback) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = callback;
+    };
+
+    preloadImage(`images/${leftImg}`, () => {
+      heroLeft.style.backgroundImage = `url('images/${leftImg}')`;
+      heroLeft.style.opacity = 1;
+    });
+
+    preloadImage(`images/${rightImg}`, () => {
+      heroRight.style.backgroundImage = `url('images/${rightImg}')`;
+      heroRight.style.opacity = 1;
+    });
+
+    function getRandomImage(exclude) {
+      const options = heroImages.filter(img => img !== exclude);
+      return options[Math.floor(Math.random() * options.length)];
+    }
+
+    heroLeft.addEventListener('click', () => {
+      const match = heroLeft.style.backgroundImage.match(/images\/(.*?)['"]/);
+      const current = match ? match[1] : null;
+      const next = getRandomImage(current);
+      heroLeft.style.opacity = 0;
+      setTimeout(() => {
+        heroLeft.style.backgroundImage = `url('images/${next}')`;
+        heroLeft.style.opacity = 1;
+      }, 300);
+    });
+
+    heroRight.addEventListener('click', () => {
+      const match = heroRight.style.backgroundImage.match(/images\/(.*?)['"]/);
+      const current = match ? match[1] : null;
+      const next = getRandomImage(current);
+      heroRight.style.opacity = 0;
+      setTimeout(() => {
+        heroRight.style.backgroundImage = `url('images/${next}')`;
+        heroRight.style.opacity = 1;
+      }, 300);
+    });
+
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
+
+    const hero = document.getElementById('hero');
+    const footerLogo = document.getElementById('footer-logo');
+    const pieces = [
+      document.getElementById('piece6'),
+      document.getElementById('piece5'),
+      document.getElementById('piece4'),
+      document.getElementById('piece3'),
+      document.getElementById('piece2'),
+      document.getElementById('piece1')
+    ];
+
+    const slideUpOffset = 154.121;
+
+    function resetPieces() {
+      pieces.forEach((piece) => {
+        piece.style.visibility = 'hidden';
+        piece.style.transform = 'translateY(0)';
+      });
+      pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+      pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
+    }
+
+    function animateSVG() {
+      resetPieces();
+      setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+      setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+      setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+      setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+      setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+      setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+      setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+      setTimeout(() => pieces[5].style.visibility = 'visible', 700);
+    }
+
+    function toggleFooterLogoVisibility() {
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight;
+      footerLogo.style.visibility = (scrollBottom >= documentHeight - 1) ? 'visible' : 'hidden';
+    }
+
+    // Init
+    resetPieces();
+    animateSVG();
+
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > 10) {
+        hero.classList.add('shrink');
+      } else {
+        hero.classList.remove('shrink');
+      }
+      if (currentScroll > lastScrollY && currentScroll > 50) {
+        pieces.forEach((piece, i) => {
+          setTimeout(() => {
+            piece.style.visibility = 'hidden';
+          }, i * 100);
+        });
+      }
+      if (currentScroll < lastScrollY && currentScroll < 30) {
+        animateSVG();
+      }
+      toggleFooterLogoVisibility();
+      lastScrollY = currentScroll;
+    });
+
+    // Scroll on SVG click
+    function scrollToBottom(duration = 1000) {
+      const start = window.scrollY;
+      const end = document.body.scrollHeight - window.innerHeight;
+      const distance = end - start;
+      let startTime = null;
+      function animation(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : -1 + (4 - 2 * progress) * progress;
+        window.scrollTo(0, start + distance * ease);
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        }
+      }
+      requestAnimationFrame(animation);
+    }
+
+    document.getElementById('svg-container').addEventListener('click', function () {
+      scrollToBottom(1000);
+    });
+  </script>
+</body>
+</html>
