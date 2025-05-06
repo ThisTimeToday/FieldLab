@@ -425,11 +425,12 @@ Our platform — We create space for ventures to take shape — evolving through
     reverseSVG();
   });
 
-  // Close the info box and reverse the SVG animation on clicking the "X"
-  closeBtn.addEventListener('click', () => {
-    infoBox.classList.remove('visible');
-    animateSVG();
-  });
+  // Close the info box, reverse the SVG, and update hero images
+closeBtn.addEventListener('click', () => {
+  infoBox.classList.remove('visible');
+  animateSVG();
+  updateHeroImages(); // <-- Add this line
+});
 
   // Hero image handling: preload images and apply background
   const heroLeft = document.getElementById('hero-left');
