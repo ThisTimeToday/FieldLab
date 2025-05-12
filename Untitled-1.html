@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Field Lab</title>
+  <link rel="icon" href="favicon.png" />
+  <style>
+    img {
+      pointer-events: none;
+    }  
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Monument-Semi-Mono, sans-serif;
+    }
+
+    @font-face {
+      font-family: Monument-Mono;
+      src: url(ABCMonumentGroteskMono-Regular.otf);
+    }
+
+    @font-face {
+      font-family: Monument-Semi-Mono;
+      src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
+    }
+  
+    @font-face {
+      font-family: Monument-Mono-Bold;
+      src: url(ABCMonumentGroteskMono-Bold.otf);
+    }
+  
+    @font-face {
+      font-family: Monument-Grotesk;
+      src: url("ABCMonumentGrotesk-Regular.ttf");
+    }
+
+    .hero {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      transition: transform 0.6s ease;
+      transform-origin: center center;
+      overflow: hidden;
+    }
+
+    .hero.shrink {
+      transform: scale(0.95);
+    }
+
+    .hero-half {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 1;
+    }
+	  
+	  .hero-half.left {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+
+  .hero-half.right {
+    display: none;
+  }
+	
+
+    #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20vw;
+      z-index: 2;
+	    cursor: pointer;
+    }
+
+    svg path {
+      visibility: hidden;
+      transition: transform 0.6s ease;
+    }
+
+	  
+	
+	  
+    .text-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+ 
+  flex: 1;
+  
+}
+
+	  #wordmark-container {
+		
+
+  top: 4vw;
+	left: 0vw;
+		  margin-left: 1vw;
+		  margin-bottom: 2vw;
+		  width: 15vw;
+  z-index: 10;
+		  transition: opacity 0.2s ease;
+
+}
+
+.text-row {
+	 justify-content: space-between;
+   display: flex;
+  flex-direction: column; /* stack elements */
+  
+  align-items: flex-start; /* <-- important: top-align the large text and the side column */
+  width: 100%;
+  gap: 3vw;
+	margin-top: 1vw;
+}
+
+.text-box-large {
+  width: 80vw;
+  font-size: 6.7vw;
+  line-height: 0.9;
+  text-align: left;
+  letter-spacing: -0.1vw;
+  font-family: Monument-Grotesk;
+	margin-bottom: 2vw;
+	
+}
+
+.text-side-column {
+	position: absolute;
+  bottom: 3vw;
+	left: 2vw;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh; /* space between small text blocks */
+}
+
+.text-small {
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+  font-size: 1.5vw;
+  line-height: 1.2;
+  letter-spacing: -0.05vw;
+  font-family: Monument-Mono;
+
+}
+	  
+	  ::selection {
+		  color: black;
+		  background: black;
+	  }
+	  
+  .info-box {
+  position: absolute;
+  bottom: -100vh;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  padding: 2vw;
+  font-family: Monument-Mono;
+  font-size: 1vw;
+  color: black;
+  overflow-y: auto;
+  transition: bottom 1s ease; /* Slow down animation */
+  transition-delay: 0.2s; /* Delay the animation for 0.5s */
+  box-sizing: border-box;
+	  z-index: 1000;
+	 
+}
+
+.info-box.visible {
+  bottom: 0;
+}
+
+    .close-btn {
+      position: absolute;
+      top: 0vw;
+      right: 2vw;
+      
+      cursor: pointer;
+      color: black;
+      font-family: Monument-Mono;
+      font-size: 7vw;
+      transition: color 0.3s ease;
+	    cursor: pointer;
+    }
+	  
+	  .close-btn:hover {
+      color: white;
+		  cursor: pointer;
+    }
+	  
+	  
+
+    #info-link {
+      position: absolute;
+      bottom: 2vw;
+      left: 2vw;
+      font-family: Monument-Mono;
+      font-size: 1.2vw;
+      letter-spacing: 0.1vw;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+	    cursor: pointer;
+ 
+		
+    }
+
+    #info-link:hover {
+     background: white;
+      color: white;
+		 border-bottom: 0px solid black;
+	 transition: background-color 0.2s ease, color 0.1s ease;
+	cursor: pointer;
+	justify-content: space-between;
+    }
+	  
+	  .links-container {
+  position: absolute;
+  bottom: 1vw;
+	right: 1vw;
+  font-family: Monument-Mono;
+  font-size: 1.5vw;
+  text-transform: uppercase;
+		  letter-spacing: 0.01em;
+}
+	  
+
+.links-container a {
+  text-decoration: none;
+  color: black;
+  margin-right: 1em;
+	border-bottom: 0px solid black;
+	 transition: background-color 0.3s ease, color 0.3s ease;
+
+	justify-content: space-between;
+	
+
+}
+	  
+	  .links-container a:hover {
+ background: black;
+      color: black;
+		 border-bottom: 0px solid black;
+	 transition: background-color 0.2s ease, color 0.1s ease;
+
+	justify-content: space-between;
+		  
+
+}
+	  
+	    .links-container a:visited {
+ background: white;
+      color: black;
+		 border-bottom: 0px solid black;
+	 transition: background-color 0.3s ease, color 0.3s ease;
+	justify-content: space-between;
+	  }
+	  
+	  @media only screen and (max-width: 900px) {
+
+ .hero {
+    flex-direction: column;
+  }
+
+  .hero-half.left {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+
+  .hero-half.right {
+    display: none;
+  }
+		  
+		    #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42vw;
+      z-index: 2;
+    }
+		  
+	#info-link {
+      position: absolute;
+      bottom: 4vw;
+      left: 2vw;
+      font-family: Monument-Mono;
+      font-size: 2.5vw;
+      letter-spacing: 0.1vw;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+ 
+    }
+	   
+  .text-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .text-row {
+    justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+	  flex-direction: column;
+  }
+
+  .text-box-large {
+	  margin-left: 2vw;	
+    width: 90vw;
+    font-size: 9vw;
+margin-top: 50vw;
+	  line-height: 0.9;
+	  letter-spacing: -0.1vw;
+	  margin-bottom: 5vw;
+  }
+
+    .text-side-column {
+    position: absolute;
+  bottom: 25vw;
+	left: 2vw;
+		margin-left: 2vw;
+  width: 65vw;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh; /* space between small text blocks */
+  }
+
+  .text-small {
+    font-size: 4vw;
+
+  }
+
+ 
+	   
+
+  .links-container {
+    bottom: 5vw;
+	  left: 3vw;
+	  margin-left: 1.5vw;
+    font-size: 4vw;
+  }
+
+ 
+	.close-btn {
+      position: absolute;
+      top: 25vw;
+      left: 2vw;
+      
+      cursor: pointer;
+      color: black;
+      font-family: Monument-Mono;
+      font-size: 15vw;
+      transition: color 0.3s ease;
+    }
+		  
+		   #wordmark-container {
+		
+display: none;
+  top: 4vw;
+	right: 1vw;
+		  margin-left: 1vw;
+		  margin-bottom: 2vw;
+		  width: 15vw;
+  z-index: 10;
+		  transition: opacity 0.2s ease;
+
+}
+}
+	  
+  </style>
+</head>
+<body>
+  <div class="hero" id="hero">
+    <div class="hero-half left" id="hero-left"></div>
+    <div class="hero-half right" id="hero-right"></div>
+  </div>
+
+  <div id="svg-container">
+    <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" fill="white"/>
+      <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" fill="white"/>
+      <path id="piece3" d="M1233.33 154.121H925V308.245H1233.33V154.121Z" fill="white"/>
+      <path id="piece4" d="M924.998 0H616.665V154.124H924.998V0Z" fill="white"/>
+      <path id="piece5" d="M616.669 154.121H308.335V308.245H616.669V154.121Z" fill="white"/>
+      <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" fill="white"/>
+    </svg>
+  </div>
+
+ 
+  <div class="info-box" id="info-box">
+    <div class="close-btn" id="close-btn">×</div>
+
+	  <div class="text-wrapper">
+	 
+    <div class="text-row">
+		 <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
+		
+      <div class="text-box-large">
+A space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
+      </div>
+      <div class="text-side-column">
+        <div class="text-small">
+         We lead projects of our own and contribute quietly to others.
+        </div>
+     </div>
+        <div class="text-small">
+ <div class="links-container">
+    <h4><a href="mailto:hello@fieldlab.work">CONTACT</a></h4>
+        </div>
+			
+		
+		 
+			
+      </div>
+    
+  </div>
+	
+<script>
+  // Select the info box, link, and close button
+  const infoBox = document.getElementById('info-box');
+  const infoLink = document.getElementById('info-link');
+  const closeBtn = document.getElementById('close-btn');
+  const pieces = [
+    document.getElementById('piece6'),
+    document.getElementById('piece5'),
+    document.getElementById('piece4'),
+    document.getElementById('piece3'),
+    document.getElementById('piece2'),
+    document.getElementById('piece1')
+  ];
+
+  const slideUpOffset = 154.121;
+
+  function resetPieces() {
+    pieces.forEach((piece) => {
+      piece.style.visibility = 'hidden';
+      piece.style.transform = 'translateY(0)';
+    });
+    pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+    pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
+  }
+
+  function animateSVG() {
+    resetPieces();
+    setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+    setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+    setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+    setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+    setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+    setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+    setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+    setTimeout(() => pieces[5].style.visibility = 'visible', 700);
+  }
+
+  function reverseSVG() {
+    pieces.forEach((piece, index) => {
+      setTimeout(() => {
+        piece.style.visibility = 'hidden';
+      }, index * 100);
+    });
+  }
+
+  // Initial SVG animation when the page loads
+  window.onload = function() {
+    animateSVG();
+  };
+
+  // Toggle visibility of the info box on SVG click
+document.getElementById('svg-container').addEventListener('click', () => {
+  infoBox.classList.add('visible');
+  reverseSVG();
+});
+
+  // Close the info box, reverse the SVG, and update hero images
+closeBtn.addEventListener('click', () => {
+  infoBox.classList.remove('visible');
+  animateSVG();
+  updateHeroImages(); // <-- Add this line
+});
+
+  // Hero image handling: preload images and apply background
+  const heroLeft = document.getElementById('hero-left');
+  const heroRight = document.getElementById('hero-right');
+
+  // Define the image pairs (always paired based on their numbering)
+  const heroImages = [
+	   ['cloud.png'],
+
+    // Add more pairs here as needed
+  ];
+
+  // Function to cycle through the image pairs in order
+  let currentPairIndex = parseInt(localStorage.getItem('currentPairIndex')) || 0; // Get the current pair index from local storage or start at 0
+
+  function getNextPair(images) {
+    const pair = images[currentPairIndex];
+    // Increment the index and cycle back to 0 after the last pair
+    currentPairIndex = (currentPairIndex + 1) % images.length;
+    // Save the updated index to localStorage
+    localStorage.setItem('currentPairIndex', currentPairIndex);
+    return pair; // Return the next pair
+  }
+
+  // Function to update the hero image when clicked
+  function updateHeroImages() {
+    const [leftImg, rightImg] = getNextPair(heroImages); // Get the next image pair
+
+    [heroLeft, heroRight].forEach((el) => {
+      el.style.opacity = 0;
+      el.style.transition = 'opacity 1s ease';
+    });
+
+    const preloadImage = (src, callback) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = callback;
+    };
+
+    preloadImage(`images/${leftImg}`, () => {
+      heroLeft.style.backgroundImage = `url('images/${leftImg}')`;
+      heroLeft.style.opacity = 1;
+    });
+
+    preloadImage(`images/${rightImg}`, () => {
+      heroRight.style.backgroundImage = `url('images/${rightImg}')`;
+      heroRight.style.opacity = 1;
+    });
+  }
+
+  // Initially load the first image pair
+  updateHeroImages();
+
+  // Add click event listener to cycle through image pairings
+  document.querySelector('.hero').addEventListener('click', updateHeroImages);
+</script>
+	  
+</body>
+</html>
