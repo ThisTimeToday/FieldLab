@@ -111,8 +111,21 @@
     }
 
     .contact-link.fade-out {
-      opacity: 0;
-    }
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.contact-link {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+	  
+	  .contact-link:hover {
+ background: black;
+      color: black;
+		 border-bottom: 0px solid black;
+	 transition: background-color 0.2s ease, color 0.1s ease;
+		  cursor: pointer;
+	  }
 
 	  ::selection {
 		  color: black;
@@ -205,14 +218,13 @@
   const svgContainer = document.getElementById('svg-container');
   const textBlock = document.getElementById('text-block');
   const footer = document.getElementById('footer-text');
+
   let showingContact = false;
   let latestTemp = null;
   let latestCondition = null;
   let latestSunrise = null;
   let latestSunset = null;
   let lastRenderedFooterText = '';
-  let lastFetchedTemp = null;
-  let lastFetchedCondition = null;
 
   const pieces = [
     document.getElementById('piece1'),
@@ -265,14 +277,15 @@
     animateSVGOut(() => {
       svgContainer.style.display = 'none';
       textBlock.classList.add('visible');
-      fadeFooterToText('CONTACT');
+      fadeFooterTo('CONTACT');
       showingContact = true;
     });
   });
 
   textBlock.addEventListener('click', () => {
     textBlock.classList.remove('visible');
-    fadeFooterToText(buildLocationString());
+    const str = buildLocationString();
+    fadeFooterTo(str);
     showingContact = false;
     setTimeout(() => {
       svgContainer.style.display = 'block';
@@ -280,23 +293,25 @@
     }, 400);
   });
 
-  function fadeFooterToText(text) {
-    if (text !== lastRenderedFooterText) {
+  function fadeFooterTo(text) {
+    footer.classList.add('fade-out');
+    setTimeout(() => {
+      footer.innerText = text;
       lastRenderedFooterText = text;
-      footer.classList.add('fade-out');
-      setTimeout(() => {
-        footer.innerText = text;
-        footer.classList.remove('fade-out');
-      }, 600);
-    }
+      footer.classList.remove('fade-out');
+    }, 400);
   }
 
   function buildLocationString() {
     const now = new Date();
-    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const time = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
     const dateStr = now.toDateString();
     const tempC = latestTemp;
-    const tempF = Math.round((tempC * 9/5) + 32);
+    const tempF = Math.round((tempC * 9) / 5 + 32);
     return `${time}, ${dateStr}, ${tempC}°C / ${tempF}°F, ${getWeatherDescription(latestCondition)}`;
   }
 
@@ -310,8 +325,7 @@
   }
 
   function interpolateColor(start, end, factor) {
-    const result = start.map((val, i) => Math.round(val + factor * (end[i] - val)));
-    return `rgb(${result.join(',')})`;
+    return `rgb(${start.map((val, i) => Math.round(val + factor * (end[i] - val))).join(',')})`;
   }
 
   function updateBackgroundWithTime(date) {
@@ -321,7 +335,7 @@
     const midpoint = sunrise + (sunset - sunrise) / 2;
 
     const dark = [10, 10, 10];
-    const light = [255, 248, 231];
+    const light = [254, 254, 254];
 
     let color;
     if (now <= sunrise || now >= sunset) {
@@ -339,6 +353,7 @@
 
   window.onload = () => {
     animateSVG();
+
     navigator.geolocation.getCurrentPosition(async position => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -347,34 +362,25 @@
       async function fetchAndUpdateWeather() {
         const response = await fetch(weatherUrl);
         const data = await response.json();
-
-        const newTemp = data.current.temperature_2m;
-        const newCondition = data.current.weathercode;
-
-        // Only update if temp/condition changed
-        if (newTemp !== lastFetchedTemp || newCondition !== lastFetchedCondition) {
-          latestTemp = newTemp;
-          latestCondition = newCondition;
-          lastFetchedTemp = newTemp;
-          lastFetchedCondition = newCondition;
-        }
-
+        latestTemp = data.current.temperature_2m;
+        latestCondition = data.current.weathercode;
         latestSunrise = data.daily.sunrise[0];
         latestSunset = data.daily.sunset[0];
       }
 
-      // Initial fetch
       await fetchAndUpdateWeather();
-
-      // Weather updates every 10s
       setInterval(fetchAndUpdateWeather, 10000);
 
-      // Time and background updates every second
+      // update time and background every second
       setInterval(() => {
         const now = new Date();
         updateBackgroundWithTime(now);
         if (!showingContact && latestTemp !== null && latestCondition !== null) {
-          fadeFooterToText(buildLocationString());
+          const currentText = buildLocationString();
+          if (currentText !== lastRenderedFooterText) {
+            footer.innerText = currentText;
+            lastRenderedFooterText = currentText;
+          }
         }
       }, 1000);
     });
