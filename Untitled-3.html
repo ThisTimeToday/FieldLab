@@ -108,6 +108,7 @@
       z-index: 1;
       transition: opacity 0.6s ease;
       opacity: 1;
+	     width: 98vw;
     }
 
     .contact-link.fade-out {
@@ -143,8 +144,13 @@
 
 } 
 	  
+			  .footer-text{
+				  width: 100vw;
+			  } 
+	  
 	  	  @media only screen and (max-width: 800px) {
 
+			
 			  #svg-container {
       position: absolute;
       top: 50%;
@@ -154,6 +160,19 @@
       z-index: 2;
       cursor: pointer;
     }
+
+			  	     #wordmark-container {
+  top: 0%;
+      left: 50%;
+      width: 50vw;
+      transform: translate(0%, -50%);
+		  width: 50vw;
+  z-index: 10;
+		  transition: opacity 0.2s ease;
+					     	margin-bottom: 4vw;
+
+
+} 
 			  
 			.large-text {
   font-size: 6vw;
@@ -178,7 +197,7 @@
 			  .contact-link {
       position: absolute;
 				  text-align: center;
-				  width: 95vw;
+				  width: 100vw;
       bottom: 6vw;
       left: 50%;
       transform: translateX(-50%);
