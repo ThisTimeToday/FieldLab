@@ -171,6 +171,10 @@
       font-size: 3vw;
     }
 		
+			  .footer-text{
+				  width: 100vw;
+			  } 
+			 
 			  .contact-link {
       position: absolute;
 				  text-align: center;
@@ -317,7 +321,7 @@
 
   function getWeatherDescription(code) {
     if ([0].includes(code)) return 'Sunny';
-    if ([1, 2, 3].includes(code)) return 'Partly Cloudy';
+    if ([1, 2, 3].includes(code)) return 'Overcast';
     if ([45, 48].includes(code)) return 'Cloudy';
     if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return 'Raining';
     if ([71, 73, 75, 85, 86].includes(code)) return 'Snowing';
