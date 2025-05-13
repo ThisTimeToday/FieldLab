@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Field Lab</title>
+ <link rel="icon" href="favicon.png" />
+  <style>
+    
+
+    @font-face {
+      font-family: Monument-Semi-Mono;
+      src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
+    }
+  
+    @font-face {
+      font-family: Monument-Mono-Bold;
+      src: url(ABCMonumentGroteskMono-Bold.otf);
+    }
+  
+    @font-face {
+      font-family: Monument-Grotesk;
+      src: url("ABCMonumentGrotesk-Regular.ttf");
+    }
+
+
+	  
+	  
+	   @font-face {
+      font-family: Monument-Mono;
+      src: url(ABCMonumentGroteskMono-Regular.otf);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: #0A0A0A;
+      overflow: hidden;
+      font-family: Monument-Mono;
+      color: black;
+     
+      transition: background-color 1s linear;
+    }
+
+    #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20vw;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    svg path {
+      visibility: hidden;
+      transition: transform 0.4s ease;
+      fill: black;
+    }
+
+    .text-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80vw;
+      transform: translate(-50%, -50%);
+      font-size: 1.5vw;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+    }
+	  
+	  .large-text {
+  font-size: 4vw;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.1vw;
+  font-family: Monument-Grotesk;
+	margin-bottom: 4vw;
+	    
+	text-align: center;
+}
+
+    .small-text {
+      margin-top: 2vh;
+      font-size: 1.5vw;
+    }
+
+    .text-center.visible {
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .contact-link {
+      position: absolute;
+      bottom: 2vw;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5vw;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: black;
+      letter-spacing: 0.0.1vw;
+      z-index: 1;
+      transition: opacity 0.6s ease;
+      opacity: 1;
+    }
+
+    .contact-link.fade-out {
+      opacity: 0;
+    }
+
+	  ::selection {
+		  color: black;
+		  background: black;
+	  } 
+	  
+	     #wordmark-container {
+  top: 0%;
+      left: 50%;
+      width: 50vw;
+      transform: translate(0%, -50%);
+		  width: 20vw;
+  z-index: 10;
+		  transition: opacity 0.2s ease;
+
+} 
+	  
+	  	  @media only screen and (max-width: 800px) {
+
+			  #svg-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50vw;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      cursor: pointer;
+    }
+			  
+			.large-text {
+  font-size: 6vw;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.1vw;
+  font-family: Monument-Grotesk;
+	margin-bottom: 4vw;
+	    
+	text-align: center;
+}  
+		
+			   .small-text {
+      margin-top: 4vh;
+      font-size: 3vw;
+    }
+		
+			  .contact-link {
+      position: absolute;
+				  text-align: center;
+				  width: 95vw;
+      bottom: 6vw;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3vw;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: black;
+      letter-spacing: 0.0.1vw;
+      z-index: 1;
+      transition: opacity 0.6s ease;
+      opacity: 1;
+    }
+			  
+	  }
+	 
+	 
+  </style>
+</head>
+<body>
+  <div id="svg-container">
+    <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" />
+      <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" />
+      <path id="piece3" d="M1233.33 154.121H925V308.245H1233.33V154.121Z" />
+      <path id="piece4" d="M924.998 0H616.665V154.124H924.998V0Z" />
+      <path id="piece5" d="M616.669 154.121H308.335V308.245H616.669V154.121Z" />
+      <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" />
+    </svg>
+  </div>
+	 
+
+  <div class="text-center" id="text-block">
+	  <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
+ <div class="large-text">A space for building — experimental, and grounded in what’s possible when nature, technology, and culture meet.</div>
+    <div class="small-text">We lead projects of our own and contribute quietly to others.</div>
+  </div>
+
+  <div class="contact-link" id="footer-text">Loading...</div>
+
+<script>
+  const svgContainer = document.getElementById('svg-container');
+  const textBlock = document.getElementById('text-block');
+  const footer = document.getElementById('footer-text');
+  let showingContact = false;
+  let latestTemp = null;
+  let latestCondition = null;
+  let latestSunrise = null;
+  let latestSunset = null;
+  let lastRenderedFooterText = '';
+  let lastFetchedTemp = null;
+  let lastFetchedCondition = null;
+
+  const pieces = [
+    document.getElementById('piece1'),
+    document.getElementById('piece2'),
+    document.getElementById('piece3'),
+    document.getElementById('piece4'),
+    document.getElementById('piece5'),
+    document.getElementById('piece6')
+  ];
+
+  function resetPieces() {
+    pieces.forEach(p => {
+      p.style.visibility = 'hidden';
+      p.setAttribute('transform', '');
+    });
+    pieces[5].setAttribute('transform', 'translate(0,154)');
+    pieces[3].setAttribute('transform', 'translate(0,154)');
+  }
+
+  function animateSVG() {
+    resetPieces();
+    let t = 300;
+    setTimeout(() => pieces[5].style.visibility = 'visible', t);
+    t += 80;
+    setTimeout(() => pieces[4].style.visibility = 'visible', t);
+    t += 80;
+    setTimeout(() => {
+      pieces[3].style.visibility = 'visible';
+      pieces[5].setAttribute('transform', 'translate(0,0)');
+    }, t);
+    t += 80;
+    setTimeout(() => pieces[2].style.visibility = 'visible', t);
+    t += 80;
+    setTimeout(() => {
+      pieces[1].style.visibility = 'visible';
+      pieces[3].setAttribute('transform', 'translate(0,0)');
+    }, t);
+    t += 80;
+    setTimeout(() => pieces[0].style.visibility = 'visible', t);
+  }
+
+  function animateSVGOut(callback) {
+    pieces.slice().reverse().forEach((piece, i) => {
+      setTimeout(() => piece.style.visibility = 'hidden', i * 100);
+    });
+    setTimeout(callback, 600);
+  }
+
+  svgContainer.addEventListener('click', () => {
+    animateSVGOut(() => {
+      svgContainer.style.display = 'none';
+      textBlock.classList.add('visible');
+      fadeFooterToText('CONTACT');
+      showingContact = true;
+    });
+  });
+
+  textBlock.addEventListener('click', () => {
+    textBlock.classList.remove('visible');
+    fadeFooterToText(buildLocationString());
+    showingContact = false;
+    setTimeout(() => {
+      svgContainer.style.display = 'block';
+      animateSVG();
+    }, 400);
+  });
+
+  function fadeFooterToText(text) {
+    if (text !== lastRenderedFooterText) {
+      lastRenderedFooterText = text;
+      footer.classList.add('fade-out');
+      setTimeout(() => {
+        footer.innerText = text;
+        footer.classList.remove('fade-out');
+      }, 600);
+    }
+  }
+
+  function buildLocationString() {
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const dateStr = now.toDateString();
+    const tempC = latestTemp;
+    const tempF = Math.round((tempC * 9/5) + 32);
+    return `${time}, ${dateStr}, ${tempC}°C / ${tempF}°F, ${getWeatherDescription(latestCondition)}`;
+  }
+
+  function getWeatherDescription(code) {
+    if ([0].includes(code)) return 'Sunny';
+    if ([1, 2, 3].includes(code)) return 'Partly Cloudy';
+    if ([45, 48].includes(code)) return 'Cloudy';
+    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return 'Raining';
+    if ([71, 73, 75, 85, 86].includes(code)) return 'Snowing';
+    return 'Unknown';
+  }
+
+  function interpolateColor(start, end, factor) {
+    const result = start.map((val, i) => Math.round(val + factor * (end[i] - val)));
+    return `rgb(${result.join(',')})`;
+  }
+
+  function updateBackgroundWithTime(date) {
+    const now = date.getTime();
+    const sunrise = new Date(latestSunrise).getTime();
+    const sunset = new Date(latestSunset).getTime();
+    const midpoint = sunrise + (sunset - sunrise) / 2;
+
+    const dark = [10, 10, 10];
+    const light = [255, 248, 231];
+
+    let color;
+    if (now <= sunrise || now >= sunset) {
+      color = `rgb(${dark.join(',')})`;
+    } else if (now <= midpoint) {
+      const progress = (now - sunrise) / (midpoint - sunrise);
+      color = interpolateColor(dark, light, progress);
+    } else {
+      const progress = (now - midpoint) / (sunset - midpoint);
+      color = interpolateColor(light, dark, progress);
+    }
+
+    document.body.style.backgroundColor = color;
+  }
+
+  window.onload = () => {
+    animateSVG();
+    navigator.geolocation.getCurrentPosition(async position => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode&daily=sunrise,sunset&timezone=auto`;
+
+      async function fetchAndUpdateWeather() {
+        const response = await fetch(weatherUrl);
+        const data = await response.json();
+
+        const newTemp = data.current.temperature_2m;
+        const newCondition = data.current.weathercode;
+
+        // Only update if temp/condition changed
+        if (newTemp !== lastFetchedTemp || newCondition !== lastFetchedCondition) {
+          latestTemp = newTemp;
+          latestCondition = newCondition;
+          lastFetchedTemp = newTemp;
+          lastFetchedCondition = newCondition;
+        }
+
+        latestSunrise = data.daily.sunrise[0];
+        latestSunset = data.daily.sunset[0];
+      }
+
+      // Initial fetch
+      await fetchAndUpdateWeather();
+
+      // Weather updates every 10s
+      setInterval(fetchAndUpdateWeather, 10000);
+
+      // Time and background updates every second
+      setInterval(() => {
+        const now = new Date();
+        updateBackgroundWithTime(now);
+        if (!showingContact && latestTemp !== null && latestCondition !== null) {
+          fadeFooterToText(buildLocationString());
+        }
+      }, 1000);
+    });
+  };
+</script>
+	
+</body>
+</html>
