@@ -34,6 +34,10 @@
       src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
     }
   
+    @font-face {
+      font-family: Monument-Mono-Bold;
+      src: url(ABCMonumentGroteskMono-Bold.otf);
+    }
   
     @font-face {
       font-family: Monument-Grotesk;
@@ -270,7 +274,7 @@
 	  .close-btn:hover {
       color: white;
 		  cursor: pointer;
-		  transition: color 0.3s ease;
+		  transition: color 0.2s ease;
     }
 	  
 .close-btn.clicked {
@@ -326,7 +330,8 @@
 	justify-content: space-between;
 	  }
 	  
-	  @media only screen and (max-width: 900px) {
+	  
+	  @media only screen and (max-width: 800px) {
 
  .hero {
     flex-direction: column;
@@ -377,13 +382,12 @@
   }
 
   .text-box-large {
+	  margin-bottom: 60vw;
 	  margin-left: 2vw;	
-    width: 90vw;
-    font-size: 9vw;
-margin-top: 50vw;
-	  line-height: 0.9;
+    width: 80vw;
+    font-size: 6vw;
+	  line-height: 1;
 	  letter-spacing: -0.1vw;
-	  margin-bottom: 5vw;
   }
 
     .text-side-column {
@@ -407,7 +411,6 @@ margin-top: 50vw;
 
   .links-container {
     bottom: 5vw;
-	  left: 3vw;
 	  margin-left: 1.5vw;
     font-size: 4vw;
   }
@@ -415,13 +418,13 @@ margin-top: 50vw;
  
 	.close-btn {
       position: absolute;
-      top: 25vw;
-      left: 2vw;
+      bottom: 26vw;
+      right: 4vw;
       
       cursor: pointer;
       color: black;
       font-family: Monument-Mono;
-      font-size: 15vw;
+      font-size: 10vw;
       transition: color 0.3s ease;
     }
 }
