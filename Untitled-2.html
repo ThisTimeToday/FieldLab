@@ -91,7 +91,7 @@
 	
 	  
     .text-wrapper {
-  width: 100%;
+  width: 100vw;
   display: flex;
   align-items: center;
  
@@ -103,7 +103,7 @@
 
 	top: 0vw;
 		 
-		  width: 95vw;
+		  width: 2000vw;
   z-index: 10;
 		  transition: opacity 0.2s ease;
 
@@ -375,15 +375,17 @@
   }
 
   .text-row {
-    justify-content: space-between;
-  display: flex;
-  align-items: flex-start;
-	  flex-direction: column;
+      display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 100vh;
   }
 
   .text-box-large {
-	  margin-bottom: 60vw;
-	  margin-left: 2vw;	
+	  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 100vh;
     width: 80vw;
     font-size: 6vw;
 	  line-height: 1;
@@ -391,12 +393,14 @@
   }
 
     .text-side-column {
+		display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 44vh;
+		
     position: absolute;
-  bottom: 25vw;
-	left: 2vw;
-		margin-left: 2vw;
+  
   width: 65vw;
-  display: flex;
   flex-direction: column;
   gap: 5vh; /* space between small text blocks */
   }
@@ -411,7 +415,6 @@
 
   .links-container {
     bottom: 5vw;
-	  margin-left: 1.5vw;
     font-size: 4vw;
   }
 
@@ -427,6 +430,16 @@
       font-size: 10vw;
       transition: color 0.3s ease;
     }
+		  
+		  #wordmark-container {
+
+	top: 0vw;
+		 
+		  width: 95vw;
+  z-index: 10;
+		  transition: opacity 0.2s ease;
+
+}
 }
 	  
   </style>
@@ -453,9 +466,9 @@
     <div class="close-btn" id="close-btn">×</div>
 
 	  <div class="text-wrapper">
-	 
+	  <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
     <div class="text-row">
-		 <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
+		
 		
       <div class="text-box-large">
 A space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
