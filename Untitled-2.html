@@ -355,55 +355,14 @@
       width: 42vw;
       z-index: 2;
     }
-		  
-	#info-link {
-      position: absolute;
-      bottom: 4vw;
-      left: 2vw;
-      font-family: Monument-Mono;
-      font-size: 2.5vw;
-      letter-spacing: 0.1vw;
-      color: white;
-      cursor: pointer;
-      text-transform: uppercase;
  
-    }
 	   
   .text-wrapper {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .text-row {
-      display: flex;
-  justify-content: left;
-  align-items: center;
-  height: 100vh;
-  }
 
-  .text-box-large {
-	  display: flex;
-  justify-content: left;
-  align-items: center;
-  height: 100vh;
-    width: 80vw;
-    font-size: 6vw;
-	  line-height: 1;
-	  letter-spacing: -0.1vw;
-  }
-
-    .text-side-column {
-		display: flex;
-  justify-content: left;
-  align-items: center;
-  height: 44vh;
-		
-    position: absolute;
-  
-  width: 65vw;
-  flex-direction: column;
-  gap: 5vh; /* space between small text blocks */
-  }
 
   .text-small {
     font-size: 4vw;
@@ -412,34 +371,55 @@
 
  
 	   
-
   .links-container {
     bottom: 5vw;
     font-size: 4vw;
   }
 
- 
-	.close-btn {
-      position: absolute;
-      bottom: 26vw;
-      right: 4vw;
-      
-      cursor: pointer;
-      color: black;
-      font-family: Monument-Mono;
-      font-size: 10vw;
-      transition: color 0.3s ease;
-    }
-		  
-		  #wordmark-container {
+		    .text-row {
+    height: 100vh;
+    justify-content: center; /* Vertically center the row */
+  }
 
-	top: 0vw;
-		 
-		  width: 95vw;
-  z-index: 10;
-		  transition: opacity 0.2s ease;
+  .text-box-large {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    text-align: left;
+    font-size: 6vw;
+    width: 80vw;
+  }
 
+  .text-side-column {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin-top: 5vh;
+    width: 80vw;
+  }
+
+  .close-btn {
+    position: fixed; /* fixed to viewport */
+    bottom: 4vw;
+    right: 4vw;
+    font-size: 10vw;
+    z-index: 1001;
+  }
+
+  #wordmark-container {
+    position: fixed;
+    top: 2vw;
+    left: 2vw;
+    width: 95vw;
+    z-index: 1001;
+  }
 }
+ 
+
 }
 	  
   </style>
@@ -567,7 +547,10 @@ document.getElementById('svg-container').addEventListener('click', () => {
   const heroImages = [
     ['mountain2.png', 'mountain1.png'],
     ['green1.png', 'green2.png'],
-	   ['newcloud3.png', 'newcloud2.png']
+	   ['newcloud3.png', 'newcloud2.png'],
+	    ['bird4.png', 'bird2.png'],
+	   ['tarp2.png', 'moss.png']
+	
     // Add more pairs here as needed
   ];
 
