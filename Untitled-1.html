@@ -318,20 +318,19 @@ display: none;
     justify-content: center;
     height: auto;
     text-align: left;
-    font-size: 6vw;
+    font-size: 8vw;
     width: 80vw;
 	 
   }
 
     .text-side-column {
-    position: absolute;
-  bottom: 25vw;
-	left: 2vw;
-		margin-left: 2vw;
-  width: 65vw;
-  display: flex;
-  flex-direction: column;
-  gap: 5vh; /* space between small text blocks */
+        position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin-top: 3vh;
+    width: 80vw;
   }
 
   .text-small {
@@ -352,28 +351,17 @@ display: none;
  
 	.close-btn {
 		
-      position: absolute;
-      top: 25vw;
-      left: 2vw;
-      
-      cursor: pointer;
-      color: black;
-      font-family: Monument-Mono;
-      font-size: 15vw;
-      transition: color 0.3s ease;
+      position: fixed; /* fixed to viewport */
+    bottom: 4vw;
+    right: 4vw;
+    font-size: 10vw;
+    z-index: 1001;
     }
 		  
 		   #wordmark-container {
 		
 display: none;
-  top: 4vw;
-	right: 1vw;
-		  margin-left: 1vw;
-		  margin-bottom: 2vw;
-		  width: 15vw;
-  z-index: 10;
-		  transition: opacity 0.2s ease;
-
+ 
 }
 }
 	  
