@@ -6,9 +6,15 @@
   <title>Field Lab</title>
   <link rel="icon" href="favicon.png" />
   <style>
+	  
+	  ::selection {
+		  color: black;
+		  background: black;
+	  }
+	  
     img {
       pointer-events: none;
-    }  
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -26,18 +32,18 @@
       font-family: Monument-Semi-Mono;
       src: url(ABCMonumentGroteskSemi-Mono-Regular.otf);
     }
-  
+
     @font-face {
       font-family: Monument-Mono-Bold;
       src: url(ABCMonumentGroteskMono-Bold.otf);
     }
-  
+
     @font-face {
       font-family: Monument-Grotesk;
       src: url("ABCMonumentGrotesk-Regular.ttf");
     }
 
-   .hero {
+    .hero {
       position: absolute;
       top: 0;
       left: 0;
@@ -50,10 +56,6 @@
       overflow: hidden;
     }
 
-    .hero.shrink {
-      transform: scale(0.95);
-    }
-
     .hero-half {
       width: 100vw;
       height: 100vh;
@@ -64,7 +66,6 @@
       transition: opacity 1s ease;
       z-index: 1;
     }
-	
 
     #svg-container {
       position: absolute;
@@ -73,7 +74,7 @@
       transform: translate(-50%, -50%);
       width: 20vw;
       z-index: 2;
-	    cursor: pointer;
+      cursor: pointer;
     }
 
     svg path {
@@ -81,204 +82,143 @@
       transition: transform 0.6s ease;
     }
 
-	  
-	
-	  
-    .text-wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
- 
-  flex: 1;
-  
-}
+    .info-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: white;
+      padding: 2vw;
+      font-family: Monument-Mono;
+      font-size: 1vw;
+      color: black;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease 0.2s; /* 0.3s delay */
 
-	  #wordmark-container {
-		
-display: none;
-  top: 4vw;
-	left: 0vw;
-		  margin-left: 1vw;
-		  margin-bottom: 2vw;
-		  width: 15vw;
-  z-index: 10;
-		  transition: opacity 0.2s ease;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
 
-}
-
-.text-row {
-	 justify-content: space-between;
-   display: flex;
-  flex-direction: column; /* stack elements */
-  
-  align-items: flex-start; /* <-- important: top-align the large text and the side column */
-  width: 100%;
-  gap: 3vw;
-	margin-top: 1vw;
-}
-
-.text-box-large {
-  width: 80vw;
-  font-size: 6.7vw;
-  line-height: 0.9;
-  text-align: left;
-  letter-spacing: -0.1vw;
-  font-family: Monument-Grotesk;
-	margin-bottom: 2vw;
-	
-}
-
-.text-side-column {
-	position: absolute;
-  bottom: 3vw;
-	left: 2vw;
-  width: 30vw;
-  display: flex;
-  flex-direction: column;
-  gap: 5vh; /* space between small text blocks */
-}
-
-.text-small {
-	letter-spacing: 0.02em;
-	text-transform: uppercase;
-  font-size: 1.5vw;
-  line-height: 1.2;
-  letter-spacing: -0.05vw;
-  font-family: Monument-Mono;
-
-}
-	  
-	  ::selection {
-		  color: black;
-		  background: black;
-	  }
-	  
-  .info-box {
-  position: absolute;
-  bottom: -100vh;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: white;
-  padding: 2vw;
-  font-family: Monument-Mono;
-  font-size: 1vw;
-  color: black;
-  overflow-y: auto;
-  transition: bottom 1s ease; /* Slow down animation */
-  transition-delay: 0.2s; /* Delay the animation for 0.5s */
-  box-sizing: border-box;
-	  z-index: 1000;
-	 
-}
-
-.info-box.visible {
-  bottom: 0;
-}
+    .info-box.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .close-btn {
       position: absolute;
       top: 0vw;
       right: 2vw;
-      
       cursor: pointer;
       color: black;
       font-family: Monument-Mono;
       font-size: 7vw;
       transition: color 0.3s ease;
-	    cursor: pointer;
     }
-	  
-	  .close-btn:hover {
-      color: white;
-		  cursor: pointer;
-    }
-	  
-	  
 
-    #info-link {
+    .close-btn:hover {
+      color: white;
+    }
+
+    .close-btn.clicked {
+      color: white;
+    }
+
+    .text-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .text-row {
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      gap: 3vw;
+      margin-top: 1vw;
+    }
+
+    .text-box-large {
+      width: 80vw;
+      font-size: 6.7vw;
+      line-height: 0.9;
+      text-align: left;
+      letter-spacing: -0.1vw;
+      font-family: Monument-Grotesk;
+      margin-bottom: 2vw;
+    }
+
+    .text-side-column {
       position: absolute;
-      bottom: 2vw;
+      bottom: 3vw;
       left: 2vw;
-      font-family: Monument-Mono;
-      font-size: 1.2vw;
-      letter-spacing: 0.1vw;
-      color: white;
-      cursor: pointer;
+      width: 30vw;
+      display: flex;
+      flex-direction: column;
+      gap: 5vh;
+    }
+
+    .text-small {
+      letter-spacing: 0.02em;
       text-transform: uppercase;
-	    cursor: pointer;
- 
+      font-size: 1.5vw;
+      line-height: 1.2;
+      letter-spacing: -0.05vw;
+      font-family: Monument-Mono;
+    }
+
+    .links-container {
+      position: absolute;
+      bottom: 1vw;
+      right: 1vw;
+      font-family: Monument-Mono;
+      font-size: 1.5vw;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .links-container a {
+      text-decoration: none;
+      color: black;
+      margin-right: 1em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .links-container a:hover {
+      background: black;
+      color: black;
+    }
+
+    #wordmark-container {
+		display: none;
+      position: absolute;
+      top: 4vw;
+      left: 1vw;
+      width: 15vw;
+      z-index: 10;
+      transition: opacity 0.8s ease;
+      opacity: 0;
+    }
+
+    .info-box.visible .text-box-large,
+    .info-box.visible .text-side-column,
+    .info-box.visible .text-small,
+    .info-box.visible .close-btn,
+    .info-box.visible .links-container,
+    .info-box.visible #wordmark-container {
+      opacity: 1;
+    }
+
+    @media only screen and (max-width: 900px) {
 		
-    }
-
-    #info-link:hover {
-     background: white;
-      color: white;
-		 border-bottom: 0px solid black;
-	 transition: background-color 0.2s ease, color 0.1s ease;
-	cursor: pointer;
-	justify-content: space-between;
-    }
-	  
-	  .links-container {
-  position: absolute;
-  bottom: 1vw;
-	right: 1vw;
-  font-family: Monument-Mono;
-  font-size: 1.5vw;
-  text-transform: uppercase;
-		  letter-spacing: 0.01em;
-}
-	  
-
-.links-container a {
-  text-decoration: none;
-  color: black;
-  margin-right: 1em;
-	border-bottom: 0px solid black;
-	 transition: background-color 0.3s ease, color 0.3s ease;
-
-	justify-content: space-between;
-	
-
-}
-	  
-	  .links-container a:hover {
- background: black;
-      color: black;
-		 border-bottom: 0px solid black;
-	 transition: background-color 0.2s ease, color 0.1s ease;
-
-	justify-content: space-between;
-		  
-
-}
-	  
-	    .links-container a:visited {
- background: white;
-      color: black;
-		 border-bottom: 0px solid black;
-	 transition: background-color 0.3s ease, color 0.3s ease;
-	justify-content: space-between;
-	  }
-	  
-	  @media only screen and (max-width: 900px) {
-
- .hero {
-    flex-direction: column;
-  }
-
-  .hero-half.left {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-  }
-
-  .hero-half.right {
-    display: none;
-  }
-		  
-		    #svg-container {
+		 #svg-container {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -286,34 +226,31 @@ display: none;
       width: 42vw;
       z-index: 2;
     }
-		  
-	
-	   
-  .text-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+		
+      .text-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-		  
-  .text-row {
-    height: 100vh;
-    justify-content: center; /* Vertically center the row */
-  }
+      .text-row {
+        justify-content: center;
+        height: 100vh;
+      }
 
-  .text-box-large {
-	  position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    text-align: left;
-    font-size: 8vw;
-    width: 80vw;
-	   line-height: 1;
-	 
-  }
+      .text-box-large {
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        text-align: left;
+        font-size: 9vw;
+        width: 90vw;
+        line-height: 0.9;
+        margin-bottom: 5vw;
+      }
 
-    .text-side-column {
+      .text-side-column {
         position: static;
     display: flex;
     align-items: center;
@@ -321,38 +258,34 @@ display: none;
     height: auto;
     margin-top: 3vh;
     width: 80vw;
-	   
-  }
+      }
 
-  .text-small {
-    font-size: 4vw;
+      .text-small {
+        font-size: 4vw;
+      }
 
-  }
-
- 
-	   
-
-  .links-container {
-    font-size: 4vw;
-  }
-
- 
-	.close-btn {
-		
-      position: fixed; /* fixed to viewport */
-    bottom: 4vw;
+      .close-btn {
+        position: fixed; /* fixed to viewport */
+    top: 4vw;
     right: 4vw;
     font-size: 10vw;
     z-index: 1001;
+      }
+
+      #wordmark-container {
+		  display: none;
+        position: fixed;
+        top: 2vw;
+        left: 2vw;
+        width: 95vw;
+        z-index: 1001;
+      }
+
+      .links-container {
+        bottom: 5vw;
+    font-size: 3.5vw;
+      }
     }
-		  
-		   #wordmark-container {
-		
-display: none;
- 
-}
-}
-	  
   </style>
 </head>
 <body>
@@ -372,167 +305,138 @@ display: none;
     </svg>
   </div>
 
- 
   <div class="info-box" id="info-box">
-    <div class="close-btn" id="close-btn">×</div>
-
-	  <div class="text-wrapper">
-	 
-    <div class="text-row">
-		 <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
-		
-      <div class="text-box-large">
-Field Lab is a space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
-      </div>
-      <div class="text-side-column">
-        <div class="text-small">
-         We lead projects of our own and contribute quietly to others.
+    <div class="close-btn" id="close-btn">&times;</div>
+    <div class="text-wrapper">
+      <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
+      <div class="text-row">
+        <div class="text-box-large">
+          A space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
         </div>
-     </div>
-        <div class="text-small">
- <div class="links-container">
-    <h4><a href="mailto:hello@fieldlab.work">CONTACT</a></h4>
+        <div class="text-side-column">
+          <div class="text-small">
+            We lead projects of our own and contribute quietly to others.
+          </div>
         </div>
-			
-		
-		 
-			
+        <div class="links-container">
+          <h4><a href="mailto:hello@fieldlab.work">&rarr; CONTACT</a></h4>
+        </div>
       </div>
-    
+    </div>
   </div>
-	
-<script>
-	
-	document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  });
-	
-  // Select the info box, link, and close button
-  const infoBox = document.getElementById('info-box');
-  const infoLink = document.getElementById('info-link');
-  const closeBtn = document.getElementById('close-btn');
-  const pieces = [
-    document.getElementById('piece6'),
-    document.getElementById('piece5'),
-    document.getElementById('piece4'),
-    document.getElementById('piece3'),
-    document.getElementById('piece2'),
-    document.getElementById('piece1')
-  ];
 
-  const slideUpOffset = 154.121;
-
-  function resetPieces() {
-    pieces.forEach((piece) => {
-      piece.style.visibility = 'hidden';
-      piece.style.transform = 'translateY(0)';
+  <script>
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
     });
-    pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
-    pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
-  }
 
-  function animateSVG() {
-    resetPieces();
-    setTimeout(() => pieces[0].style.visibility = 'visible', 10);
-    setTimeout(() => pieces[1].style.visibility = 'visible', 200);
-    setTimeout(() => pieces[2].style.visibility = 'visible', 300);
-    setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
-    setTimeout(() => pieces[3].style.visibility = 'visible', 500);
-    setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
-    setTimeout(() => pieces[4].style.visibility = 'visible', 600);
-    setTimeout(() => pieces[5].style.visibility = 'visible', 700);
-  }
+    const infoBox = document.getElementById('info-box');
+    const closeBtn = document.getElementById('close-btn');
+    const pieces = [
+      document.getElementById('piece6'),
+      document.getElementById('piece5'),
+      document.getElementById('piece4'),
+      document.getElementById('piece3'),
+      document.getElementById('piece2'),
+      document.getElementById('piece1')
+    ];
 
-  function reverseSVG() {
-    pieces.forEach((piece, index) => {
-      setTimeout(() => {
+    const slideUpOffset = 154.121;
+
+    function resetPieces() {
+      pieces.forEach((piece) => {
         piece.style.visibility = 'hidden';
-      }, index * 100);
-    });
-  }
+        piece.style.transform = 'translateY(0)';
+      });
+      pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+      pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
+    }
 
-  // Initial SVG animation when the page loads
-  window.onload = function() {
-    animateSVG();
-  };
+    function animateSVG() {
+      resetPieces();
+      setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+      setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+      setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+      setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+      setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+      setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+      setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+      setTimeout(() => pieces[5].style.visibility = 'visible', 700);
+    }
 
-  // Toggle visibility of the info box on SVG click
-document.getElementById('svg-container').addEventListener('click', () => {
-  infoBox.classList.add('visible');
-  reverseSVG();
-});
+    function reverseSVG() {
+      pieces.forEach((piece, index) => {
+        setTimeout(() => {
+          piece.style.visibility = 'hidden';
+        }, index * 100);
+      });
+    }
 
-  // Close the info box, reverse the SVG, and update hero images
-
-	closeBtn.addEventListener('click', () => {
-  closeBtn.classList.add('clicked'); // make it white
-  infoBox.classList.remove('visible');
-
-  setTimeout(() => {
-    closeBtn.classList.remove('clicked'); // reset color if desired
-    animateSVG();
-    updateHeroImages();
-  }, 0); // match fade-out duration
-});
-
-  // Hero image handling: preload images and apply background
-  const heroLeft = document.getElementById('hero-left');
-  const heroRight = document.getElementById('hero-right');
-
-  // Define the image pairs (always paired based on their numbering)
-  const heroImages = [
-    ['mountain2.png', 'mountain1.png'],
-    ['green1.png', 'green2.png'],
-	   ['newcloud3.png', 'newcloud2.png'],
-	    ['bird4.png', 'bird2.png']
-	
-    // Add more pairs here as needed
-  ];
-
-  // Function to cycle through the image pairs in order
-  let currentPairIndex = parseInt(localStorage.getItem('currentPairIndex')) || 0; // Get the current pair index from local storage or start at 0
-
-  function getNextPair(images) {
-    const pair = images[currentPairIndex];
-    // Increment the index and cycle back to 0 after the last pair
-    currentPairIndex = (currentPairIndex + 1) % images.length;
-    // Save the updated index to localStorage
-    localStorage.setItem('currentPairIndex', currentPairIndex);
-    return pair; // Return the next pair
-  }
-
-  // Function to update the hero image when clicked
-  function updateHeroImages() {
-    const [leftImg, rightImg] = getNextPair(heroImages); // Get the next image pair
-
-    [heroLeft, heroRight].forEach((el) => {
-      el.style.opacity = 0;
-      el.style.transition = 'opacity 1s ease';
-    });
-
-    const preloadImage = (src, callback) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = callback;
+    window.onload = function() {
+      animateSVG();
     };
 
-    preloadImage(`images/${leftImg}`, () => {
-      heroLeft.style.backgroundImage = `url('images/${leftImg}')`;
-      heroLeft.style.opacity = 1;
+    document.getElementById('svg-container').addEventListener('click', () => {
+      infoBox.classList.add('visible');
+      reverseSVG();
     });
 
-    preloadImage(`images/${rightImg}`, () => {
-      heroRight.style.backgroundImage = `url('images/${rightImg}')`;
-      heroRight.style.opacity = 1;
+    closeBtn.addEventListener('click', () => {
+      closeBtn.classList.add('clicked');
+      infoBox.classList.remove('visible');
+      setTimeout(() => {
+        closeBtn.classList.remove('clicked');
+        animateSVG();
+        updateHeroImages();
+      }, 0);
     });
-  }
 
-  // Initially load the first image pair
-  updateHeroImages();
+    const heroLeft = document.getElementById('hero-left');
+    const heroRight = document.getElementById('hero-right');
 
-  // Add click event listener to cycle through image pairings
-  document.querySelector('.hero').addEventListener('click', updateHeroImages);
-</script>
-	  
+    const heroImages = [
+      ['mountain2.png', 'mountain1.png'],
+      ['green1.png', 'green2.png'],
+      ['newcloud3.png', 'newcloud2.png'],
+      ['bird4.png', 'bird2.png']
+    ];
+
+    let currentPairIndex = parseInt(localStorage.getItem('currentPairIndex')) || 0;
+
+    function getNextPair(images) {
+      const pair = images[currentPairIndex];
+      currentPairIndex = (currentPairIndex + 1) % images.length;
+      localStorage.setItem('currentPairIndex', currentPairIndex);
+      return pair;
+    }
+
+    function updateHeroImages() {
+      const [leftImg, rightImg] = getNextPair(heroImages);
+
+      [heroLeft, heroRight].forEach((el) => {
+        el.style.opacity = 0;
+        el.style.transition = 'opacity 1s ease';
+      });
+
+      const preloadImage = (src, callback) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = callback;
+      };
+
+      preloadImage(`images/${leftImg}`, () => {
+        heroLeft.style.backgroundImage = `url('images/${leftImg}')`;
+        heroLeft.style.opacity = 1;
+      });
+
+      preloadImage(`images/${rightImg}`, () => {
+        heroRight.style.backgroundImage = `url('images/${rightImg}')`;
+        heroRight.style.opacity = 1;
+      });
+    }
+
+    updateHeroImages();
+    document.querySelector('.hero').addEventListener('click', updateHeroImages);
+  </script>
 </body>
 </html>
