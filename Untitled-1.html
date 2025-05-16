@@ -37,7 +37,7 @@
       src: url("ABCMonumentGrotesk-Regular.ttf");
     }
 
-    .hero {
+   .hero {
       position: absolute;
       top: 0;
       left: 0;
@@ -64,16 +64,6 @@
       transition: opacity 1s ease;
       z-index: 1;
     }
-	  
-	  .hero-half.left {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-  }
-
-  .hero-half.right {
-    display: none;
-  }
 	
 
     #svg-container {
@@ -105,7 +95,7 @@
 
 	  #wordmark-container {
 		
-
+display: none;
   top: 4vw;
 	left: 0vw;
 		  margin-left: 1vw;
@@ -315,6 +305,7 @@
     align-items: flex-start;
   }
 
+		  
   .text-row {
     justify-content: space-between;
   display: flex;
@@ -360,6 +351,7 @@ margin-top: 50vw;
 
  
 	.close-btn {
+		
       position: absolute;
       top: 25vw;
       left: 2vw;
@@ -434,6 +426,11 @@ A space for building—experimental and grounded in what’s possible when natur
   </div>
 	
 <script>
+	
+	document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+	
   // Select the info box, link, and close button
   const infoBox = document.getElementById('info-box');
   const infoLink = document.getElementById('info-link');
@@ -490,10 +487,16 @@ document.getElementById('svg-container').addEventListener('click', () => {
 });
 
   // Close the info box, reverse the SVG, and update hero images
-closeBtn.addEventListener('click', () => {
+
+	closeBtn.addEventListener('click', () => {
+  closeBtn.classList.add('clicked'); // make it white
   infoBox.classList.remove('visible');
-  animateSVG();
-  updateHeroImages(); // <-- Add this line
+
+  setTimeout(() => {
+    closeBtn.classList.remove('clicked'); // reset color if desired
+    animateSVG();
+    updateHeroImages();
+  }, 0); // match fade-out duration
 });
 
   // Hero image handling: preload images and apply background
@@ -502,8 +505,11 @@ closeBtn.addEventListener('click', () => {
 
   // Define the image pairs (always paired based on their numbering)
   const heroImages = [
-	   ['cloud.png'],
-
+    ['mountain2.png', 'mountain1.png'],
+    ['green1.png', 'green2.png'],
+	   ['newcloud3.png', 'newcloud2.png'],
+	    ['bird4.png', 'bird2.png']
+	
     // Add more pairs here as needed
   ];
 
