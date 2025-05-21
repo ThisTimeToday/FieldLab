@@ -33,8 +33,8 @@
     }
 	  
     ::selection {
-      color: black;
-      background: black;
+      color: white;
+      background: white;
     }
 
     html, body {
@@ -58,14 +58,25 @@
 
     /* Full-screen image hero */
     .hero-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 1s ease;
+  opacity: 0;
+  z-index: -1;
+}
+
+.hero-image.current {
+  z-index: 1;
+  opacity: 1;
+}
+
+.hero-image.next {
+  z-index: 0;
+}
 
     #svg-container {
       position: absolute;
@@ -100,7 +111,6 @@
 transition: none; /* default — no transition unless a class is added */
   z-index: 1000;
   text-align: center;
-  padding: 2vw;
   box-sizing: border-box;
 }
 
@@ -177,12 +187,11 @@ transition: opacity 1s ease 0.5s; /* 0.5s delay before fading in */
       transform: translate(-50%, -50%);
       z-index: 2;
       cursor: pointer;
-      width: 46vw;
-      font-size: 3vw;
-      line-height: 1;
+      width: 40vw;
+      font-size: 1.5vw;
+      line-height: 1.2;
       text-align: center;
-      letter-spacing: -0.1vw;
-      font-family: Monument-Grotesk;
+      font-family: Monument-Mono;
       margin-bottom: 2vw;
     }
 
@@ -196,10 +205,10 @@ transition: opacity 1s ease 0.5s; /* 0.5s delay before fading in */
     .text-small {
 		bottom: 1%;
       letter-spacing: 0.02em;
-      text-transform: uppercase;
+    
       font-size: 1vw;
       line-height: 1.5;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.01em;
 		width: 25vw;
       font-family: Monument-Mono;
     }
@@ -304,21 +313,17 @@ padding: 0.5em;
       z-index: 2;
       cursor: pointer;
       width: 82vw;
-      font-size: 5.2vw;
-      line-height: 1;
+      font-size: 3.5vw;
       text-align: center;
       letter-spacing: -0.1vw;
-      font-family: Monument-Grotesk;
+   
       margin-bottom: 2vw;
     }
 		
 		  .text-small {
 	
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
+ 
       font-size: 2.5vw;
-      line-height: 1.5;
-      letter-spacing: 0.05em;
 		width: 60vw;
       font-family: Monument-Mono;
     }
@@ -330,8 +335,9 @@ padding: 0.5em;
 </head>
 <body>
   <div class="hero" id="hero">
-    <img class="hero-image" src="images/image1.png" alt="Hero Image">
-  </div>
+  <img class="hero-image current" src="images/image1.png" alt="Hero Image">
+  <img class="hero-image next" src="images/image2.png" alt="Hero Image">
+</div>
 
   <div id="svg-container">
     <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -350,11 +356,11 @@ padding: 0.5em;
       <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
       <div class="text-row">
         <div class="text-box-large">
-			FIELD LAB: a space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
+			FIELD LAB: a space for building–<br>experimental and grounded in what’s<br>possible when nature, technology,<br>and culture meet.
         </div>
         <div class="text-side-column">
           <div class="text-small">
-            We lead projects of our own and contribute quietly to others.<br><br>
+            [We lead projects of our own<br>and contribute quietly to others]<br><br>
 			            <h4><a href="mailto:hello@fieldlab.work">CONTACT</a></h4>
 
           </div>
@@ -364,72 +370,117 @@ padding: 0.5em;
     </div>
   </div>
 
-  <script>
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
+<script>
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  const infoBox = document.getElementById('info-box');
+  const closeBtn = document.getElementById('close-btn');
+
+  const pieces = [
+    document.getElementById('piece6'),
+    document.getElementById('piece5'),
+    document.getElementById('piece4'),
+    document.getElementById('piece3'),
+    document.getElementById('piece2'),
+    document.getElementById('piece1')
+  ];
+
+  const slideUpOffset = 154.121;
+
+  function resetPieces() {
+    pieces.forEach(p => {
+      p.style.visibility = 'hidden';
+      p.style.transform = 'translateY(0)';
     });
+    pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
+    pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
+  }
 
-    const infoBox = document.getElementById('info-box');
-    const closeBtn = document.getElementById('close-btn');
-    const pieces = [
-      document.getElementById('piece6'),
-      document.getElementById('piece5'),
-      document.getElementById('piece4'),
-      document.getElementById('piece3'),
-      document.getElementById('piece2'),
-      document.getElementById('piece1')
-    ];
+  function animateSVG() {
+    resetPieces();
+    setTimeout(() => pieces[0].style.visibility = 'visible', 10);
+    setTimeout(() => pieces[1].style.visibility = 'visible', 200);
+    setTimeout(() => pieces[2].style.visibility = 'visible', 300);
+    setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
+    setTimeout(() => pieces[3].style.visibility = 'visible', 500);
+    setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
+    setTimeout(() => pieces[4].style.visibility = 'visible', 600);
+    setTimeout(() => pieces[5].style.visibility = 'visible', 700);
+  }
 
-    const slideUpOffset = 154.121;
+  function reverseSVG() {
+    pieces.forEach((p, i) => {
+      setTimeout(() => {
+        p.style.visibility = 'hidden';
+      }, i * 100);
+    });
+  }
 
-    function resetPieces() {
-      pieces.forEach((piece) => {
-        piece.style.visibility = 'hidden';
-        piece.style.transform = 'translateY(0)';
-      });
-      pieces[0].style.transform = `translateY(${slideUpOffset}px)`;
-      pieces[2].style.transform = `translateY(${slideUpOffset}px)`;
-    }
+  const heroImages = [
+    'images/image1.png',
+    'images/image2.png',
+    'images/image3.png',
+    'images/image4.png'
+  ];
 
-    function animateSVG() {
-      resetPieces();
-      setTimeout(() => pieces[0].style.visibility = 'visible', 10);
-      setTimeout(() => pieces[1].style.visibility = 'visible', 200);
-      setTimeout(() => pieces[2].style.visibility = 'visible', 300);
-      setTimeout(() => pieces[0].style.transform = 'translateY(0)', 400);
-      setTimeout(() => pieces[3].style.visibility = 'visible', 500);
-      setTimeout(() => pieces[2].style.transform = 'translateY(0)', 600);
-      setTimeout(() => pieces[4].style.visibility = 'visible', 600);
-      setTimeout(() => pieces[5].style.visibility = 'visible', 700);
-    }
+  // Get current image index from localStorage and increment it for next load
+  let currentIndex = parseInt(localStorage.getItem('heroIndex') || '0', 10);
+  currentIndex = (currentIndex + 1) % heroImages.length;
+  localStorage.setItem('heroIndex', currentIndex);
 
-    function reverseSVG() {
-      pieces.forEach((piece, index) => {
-        setTimeout(() => {
-          piece.style.visibility = 'hidden';
-        }, index * 100);
-      });
-    }
+  const heroContainer = document.getElementById('hero');
+  let currentImageEl = document.createElement('img');
+  currentImageEl.src = heroImages[currentIndex];
+  currentImageEl.className = 'hero-image current';
+  heroContainer.innerHTML = '';
+  heroContainer.appendChild(currentImageEl);
 
-    window.onload = function() {
+  let nextIndex = (currentIndex + 1) % heroImages.length;
+
+  function crossfadeImage() {
+    const nextImageEl = document.createElement('img');
+    nextImageEl.src = heroImages[nextIndex];
+    nextImageEl.className = 'hero-image next';
+    heroContainer.appendChild(nextImageEl);
+
+    setTimeout(() => {
+      nextImageEl.style.opacity = '1';
+      currentImageEl.style.opacity = '0';
+    }, 50);
+
+    setTimeout(() => {
+      heroContainer.removeChild(currentImageEl);
+      nextImageEl.className = 'hero-image current';
+      currentImageEl = nextImageEl;
+      nextIndex = (nextIndex + 1) % heroImages.length;
+    }, 1050);
+  }
+
+  window.onload = () => {
+    animateSVG();
+
+    // Change image every 1 minute
+    setInterval(() => {
+      crossfadeImage();
+    }, 30000);
+  };
+
+  document.getElementById('svg-container').addEventListener('click', () => {
+    infoBox.classList.remove('fade-out');
+    infoBox.classList.add('fade-in');
+    reverseSVG();
+  });
+
+  closeBtn.addEventListener('click', () => {
+    closeBtn.classList.add('clicked');
+    infoBox.classList.remove('fade-in');
+    infoBox.classList.add('fade-out');
+    setTimeout(() => {
+      closeBtn.classList.remove('clicked');
       animateSVG();
-    };
-
-    document.getElementById('svg-container').addEventListener('click', () => {
-      infoBox.classList.remove('fade-out');
-infoBox.classList.add('fade-in');
-reverseSVG();
-    });
-
-    closeBtn.addEventListener('click', () => {
-      closeBtn.classList.add('clicked');
-      infoBox.classList.remove('fade-in');
-infoBox.classList.add('fade-out');
-setTimeout(() => {
-  closeBtn.classList.remove('clicked');
-  animateSVG();
-}, 500); // Match the fade-out duration
-    });
-  </script>
+    }, 500);
+  });
+</script>
+	
 </body>
 </html>
