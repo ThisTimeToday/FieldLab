@@ -70,7 +70,7 @@
     #svg-container {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 40%;
       transform: translate(-50%, -50%);
       width: 20vw;
       z-index: 2;
@@ -83,54 +83,74 @@
     }
 
     .info-box {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: white;
-      padding: 2vw;
-      font-family: Monument-Mono;
-      font-size: 1vw;
-      color: black;
-      overflow-y: auto;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s ease 0.2s;
-      box-sizing: border-box;
-      z-index: 1000;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Monument-Mono, monospace;
+  font-size: 1.2vw;
+  color: white;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+transition: none; /* default — no transition unless a class is added */
+  z-index: 1000;
+  text-align: center;
+  padding: 2vw;
+  box-sizing: border-box;
+}
 
-    .info-box.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+.info-box.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+	  
+	  .info-box.fade-in {
+transition: opacity 1s ease 0.5s; /* 0.5s delay before fading in */
+  opacity: 1;
+  pointer-events: auto;
+}
+	  
+	  .info-box.fade-out {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
 
-    .close-btn {
-      position: absolute;
-      top: 0vw;
-      right: 2vw;
-      cursor: pointer;
-      color: black;
-      font-family: Monument-Mono;
-      font-size: 7vw;
-      transition: color 0.3s ease;
-    }
+.close-btn {
+  position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  cursor: pointer;
+  color: white;
+  font-family: Monument-Mono;
+  font-size: 4vw;
+  z-index: 1001;
+	
+		
+}
 
     .close-btn:hover {
-      color: white;
+      transition: opacity 0.5s ease;
+  opacity: 0;
+		cursor: pointer;
     }
 
     .close-btn:clicked {
-      color: white;
+        opacity: 0;
     }
 	  
 	  .close-btn:active {
-      color: white;
+		    opacity: 0;
     }
 	  
 	  .close-btn:visited {
-      color: white;
+        opacity: 0;
     }
 
     .text-wrapper {
@@ -146,61 +166,65 @@
       flex-direction: column;
       align-items: flex-start;
       width: 100%;
-      gap: 3vw;
-      margin-top: 1vw;
+   
+  
     }
 
     .text-box-large {
-      width: 80vw;
-      font-size: 6.7vw;
-      line-height: 0.9;
-      text-align: left;
+		    position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      cursor: pointer;
+      width: 46vw;
+      font-size: 3vw;
+      line-height: 1;
+      text-align: center;
       letter-spacing: -0.1vw;
       font-family: Monument-Grotesk;
       margin-bottom: 2vw;
     }
 
     .text-side-column {
-      position: absolute;
-      bottom: 3vw;
-      left: 2vw;
-      width: 30vw;
-      display: flex;
-      flex-direction: column;
-      gap: 5vh;
+       position: absolute;
+      bottom: 0%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .text-small {
+		bottom: 1%;
       letter-spacing: 0.02em;
       text-transform: uppercase;
-      font-size: 1.5vw;
-      line-height: 1.2;
-      letter-spacing: -0.05vw;
+      font-size: 1vw;
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+		width: 25vw;
       font-family: Monument-Mono;
     }
 
-    .links-container {
-      position: absolute;
-      bottom: 1vw;
-      right: 1vw;
+	  a {
+		 color: white;
       font-family: Monument-Mono;
-      font-size: 1.5vw;
       text-transform: uppercase;
-      letter-spacing: 0.01em;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+      letter-spacing: 0.02em;
+		  text-decoration: none;
+      padding: 0.5em;
+		  border: solid 1px;
+		  border-color: white;
+		  margin-top: 10vw;
+	  }
+	  
+   
 
-    .links-container a {
-      text-decoration: none;
-      color: black;
-      margin-right: 1em;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+  
 
-    .links-container a:hover {
-      background: black;
-      color: black;
+a:hover {
+		      transition: background-color 0.3s ease, color 0.3s ease;
+padding: 0.5em;
+      background: white;
+      color: white;
     }
 
     #wordmark-container {
@@ -222,8 +246,16 @@
     .info-box.visible #wordmark-container {
       opacity: 1;
     }
+	
 	  
 	  
+	  svg path {
+  shape-rendering: geometricPrecision;
+}
+#svg-container {
+  backface-visibility: hidden;
+  transform: translateZ(0); /* force GPU rendering */
+}
 
     @media only screen and (max-width: 900px) {
       .hero {
@@ -245,87 +277,70 @@
         z-index: 2;
       }
 		
-		.info-box {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: white;
-      padding-left: 4vw;
-		}
+	
 
       .text-wrapper {
         flex-direction: column;
         align-items: flex-start;
       }
+		
+		.close-btn {
+  position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  cursor: pointer;
+  color: white;
+  font-family: Monument-Mono;
+  font-size: 8vw;
+  z-index: 1001;
+}
 
-     
-
-      .text-box-large {
-        position: static;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: auto;
-        text-align: left;
-        font-size: 7.5vw;
-        width: 85vw;
-        line-height: 1;
-        margin-bottom: 5vw;
-		  margin-top: 2.5vh;
-		  left: 2vw;
-      }
-
-      .text-side-column {
-        padding-left: 2vw;
-        margin-bottom:4vh;
-        width: 40vw;
-		  bottom: 0vw;
-      }
-
-      .text-small {
-        font-size: 3.5vw;
+       .text-box-large {
+		    position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      cursor: pointer;
+      width: 82vw;
+      font-size: 5.2vw;
+      line-height: 1;
+      text-align: center;
+      letter-spacing: -0.1vw;
+      font-family: Monument-Grotesk;
+      margin-bottom: 2vw;
+    }
+		
+		  .text-small {
 	
-      }
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-size: 2.5vw;
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+		width: 60vw;
+      font-family: Monument-Mono;
+    }
 
-      .close-btn {
-        position: fixed;
-        top: 4vw;
-        right: 4vw;
-        font-size: 10vw;
-        z-index: 1001;
-      }
 
-      #wordmark-container {
-        display: none;
-        position: fixed;
-        top: 2vw;
-        left: 2vw;
-        width: 95vw;
-        z-index: 1001;
-      }
-
-      .links-container {
-        bottom: 0vw;
-        font-size: 3.5vw;
-      }
+    
     }
   </style>
 </head>
 <body>
   <div class="hero" id="hero">
-    <img class="hero-image" src="images/newcloud3.png" alt="Hero Image">
+    <img class="hero-image" src="images/image1.png" alt="Hero Image">
   </div>
 
   <div id="svg-container">
     <svg id="animated-svg" viewBox="0 0 1850 309" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path id="piece1" d="M1849.33 154.121H1541V308.245H1849.33V154.121Z" fill="white"/>
-      <path id="piece2" d="M1541.33 154.121H1233V308.245H1541.33V154.121Z" fill="white"/>
-      <path id="piece3" d="M1233.33 154.121H925V308.245H1233.33V154.121Z" fill="white"/>
-      <path id="piece4" d="M924.998 0H616.665V154.124H924.998V0Z" fill="white"/>
-      <path id="piece5" d="M616.669 154.121H308.335V308.245H616.669V154.121Z" fill="white"/>
-      <path id="piece6" d="M308.333 0H0V154.124H308.333V0Z" fill="white"/>
+      <path id="piece2" d="M1541.33 154.121H1233V308.245H1543.33V154.121Z" fill="white"/>
+      <path id="piece3" d="M1233.83 154.121H925V308.245H1240.83V154.121Z" fill="white"/>
+<path id="piece4" d="M925.498 0H613.665V154.124H927.498V0Z" fill="white"/>
+<path id="piece5" d="M617.169 154.121H308.335V308.245H617.169V154.121Z" fill="white"/>
+<path id="piece6" d="M308.833 0H0V154.124H310.833V0Z" fill="white"/>
     </svg>
   </div>
 
@@ -335,16 +350,16 @@
       <img id="wordmark-container" src="Field Lab Wordmark NEW.svg" alt="Field Lab Wordmark" />
       <div class="text-row">
         <div class="text-box-large">
-			FIELD LAB is a space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
+			FIELD LAB: a space for building—experimental and grounded in what’s possible when nature, technology, and culture meet.
         </div>
         <div class="text-side-column">
           <div class="text-small">
-            We lead projects of our own and contribute quietly to others.
+            We lead projects of our own and contribute quietly to others.<br><br>
+			            <h4><a href="mailto:hello@fieldlab.work">CONTACT</a></h4>
+
           </div>
         </div>
-        <div class="links-container">
-          <h4><a href="mailto:hello@fieldlab.work">&rarr; CONTACT</a></h4>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -401,17 +416,19 @@
     };
 
     document.getElementById('svg-container').addEventListener('click', () => {
-      infoBox.classList.add('visible');
-      reverseSVG();
+      infoBox.classList.remove('fade-out');
+infoBox.classList.add('fade-in');
+reverseSVG();
     });
 
     closeBtn.addEventListener('click', () => {
       closeBtn.classList.add('clicked');
-      infoBox.classList.remove('visible');
-      setTimeout(() => {
-        closeBtn.classList.remove('clicked');
-        animateSVG();
-      }, 0);
+      infoBox.classList.remove('fade-in');
+infoBox.classList.add('fade-out');
+setTimeout(() => {
+  closeBtn.classList.remove('clicked');
+  animateSVG();
+}, 500); // Match the fade-out duration
     });
   </script>
 </body>
