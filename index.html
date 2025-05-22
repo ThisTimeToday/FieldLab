@@ -57,20 +57,24 @@
     }
 
     /* Full-screen image hero */
-    .hero-image {
+   .hero-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 1s ease;
+  transition: opacity 1.5s ease;
   opacity: 0;
   z-index: -1;
 }
 
 .hero-image.current {
   z-index: 1;
+  opacity: 0; /* Start at 0, fade in with JS */
+}
+
+.hero-image.fade-in {
   opacity: 1;
 }
 
@@ -195,12 +199,12 @@ transition: opacity 1s ease 0.5s; /* 0.5s delay before fading in */
       margin-bottom: 2vw;
     }
 
-    .text-side-column {
-       position: absolute;
-      bottom: 0%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+   .text-side-column {
+  position: absolute;
+  bottom: 2vh; /* add a bit of spacing */
+  left: 50%;
+  transform: translateX(-50%);
+}
 
     .text-small {
 		bottom: 1%;
@@ -428,12 +432,17 @@ padding: 0.5em;
   currentIndex = (currentIndex + 1) % heroImages.length;
   localStorage.setItem('heroIndex', currentIndex);
 
-  const heroContainer = document.getElementById('hero');
-  let currentImageEl = document.createElement('img');
-  currentImageEl.src = heroImages[currentIndex];
-  currentImageEl.className = 'hero-image current';
-  heroContainer.innerHTML = '';
-  heroContainer.appendChild(currentImageEl);
+const heroContainer = document.getElementById('hero');
+let currentImageEl = document.createElement('img');
+currentImageEl.src = heroImages[currentIndex];
+currentImageEl.className = 'hero-image current';
+heroContainer.innerHTML = '';
+heroContainer.appendChild(currentImageEl);
+
+// Trigger fade-in on load
+setTimeout(() => {
+  currentImageEl.classList.add('fade-in');
+}, 50);
 
   let nextIndex = (currentIndex + 1) % heroImages.length;
 
