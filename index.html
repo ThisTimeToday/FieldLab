@@ -36,11 +36,12 @@
       color: white;
       background: white;
     }
+	
 
     html, body {
       margin: 0;
       padding: 0;
-      height: 100vh;
+       height: 100dvh; /* Better for modern mobile browsers */
       overflow: hidden;
       font-family: Monument-Semi-Mono, sans-serif;
     }
@@ -201,12 +202,14 @@ transition: opacity 1s ease 0.5s; /* 0.5s delay before fading in */
 
    .text-side-column {
   position: absolute;
-  bottom: 2vh; /* add a bit of spacing */
+  bottom: env(safe-area-inset-bottom, 2vh);
   left: 50%;
   transform: translateX(-50%);
 }
 
+	  
     .text-small {
+	    padding-bottom: env(safe-area-inset-bottom, 2vh);
 		bottom: 1%;
       letter-spacing: 0.02em;
     
